@@ -1,13 +1,12 @@
-use chrono::naive::{NaiveDate, NaiveDateTime, NaiveTime};
-use chrono::{Datelike, Timelike};
-use num_traits::float::{Float, FloatConst};
-use super::julian_day::{datetime_to_jd, ToJd};
+use chrono::naive::{NaiveDate, NaiveDateTime};
+use chrono::Datelike;
+use super::julian_day::ToJd;
 
-pub trait ToMeanSidereal {
-    fn to_mean_sidereal_angle(&self) -> f64;
+pub trait IntoMeanGreenSidereal {
+    fn mean_green_sidereal_angle(&self) -> f64;
 }
 
-pub fn date_to_mean_sidereal_angle(date: &NaiveDate) -> f64 {
+pub fn date_mean_green_sidereal_angle(date: &NaiveDate) -> f64 {
     let jd = date.and_hms(0, 0, 0).to_jd();
     let t = (jd - 2451_545.0) / 36525.0;
     let mut sdr_deg: f64 = 100.460_618_37 + 36_000.770_053_608 * t + 0.000_387_933 * t.powi(2)
@@ -20,7 +19,7 @@ pub fn date_to_mean_sidereal_angle(date: &NaiveDate) -> f64 {
     sdr_deg.to_radians()
 }
 
-pub fn datetime_to_mean_sidereal_angle(datetime: &NaiveDateTime) -> f64 {
+pub fn datetime_mean_green_sidereal_angle(datetime: &NaiveDateTime) -> f64 {
     let jd = datetime.to_jd();
     let t = (NaiveDate::from_ymd(datetime.year(), datetime.month(), datetime.day())
         .and_hms(0, 0, 0)
@@ -35,14 +34,20 @@ pub fn datetime_to_mean_sidereal_angle(datetime: &NaiveDateTime) -> f64 {
     sdr_deg.to_radians()
 }
 
-impl ToMeanSidereal for NaiveDate {
-    fn to_mean_sidereal_angle(&self) -> f64 {
-        date_to_mean_sidereal_angle(self)
+impl IntoMeanGreenSidereal for NaiveDate {
+    fn mean_green_sidereal_angle(&self) -> f64 {
+        date_mean_green_sidereal_angle(self)
     }
 }
 
-impl ToMeanSidereal for NaiveDateTime {
-    fn to_mean_sidereal_angle(&self) -> f64 {
-        datetime_to_mean_sidereal_angle(self)
+impl IntoMeanGreenSidereal for NaiveDateTime {
+    fn mean_green_sidereal_angle(&self) -> f64 {
+        datetime_mean_green_sidereal_angle(self)
+    }
+}
+
+impl IntoMeanGreenSidereal for f64 {
+    fn mean_green_sidereal_angle(&self) -> f64 {
+        *self
     }
 }

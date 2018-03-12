@@ -1,7 +1,6 @@
-use chrono::naive::{NaiveDate, NaiveDateTime, NaiveTime};
+use chrono::naive::{NaiveDate, NaiveDateTime};
 use chrono::Datelike;
 use chrono::Timelike;
-use num_traits::float::Float;
 
 pub trait ToJd {
     fn to_jd(&self) -> f64;

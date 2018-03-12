@@ -1,6 +1,4 @@
 use super::eqpoint::EqPoint;
-use num_traits::float::Float;
-use num_traits::float::FloatConst;
 
 fn sec2rad(x: f64) -> f64 {
     (x / 3600.0).to_radians()
