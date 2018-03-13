@@ -90,3 +90,29 @@ impl LonLat {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::super::earth_position::LonLat;
+    use super::super::quant::{Angle, Length};
+    use super::super::quant::{AsAngle, AsLength, HasValue};
+    use chrono::naive::NaiveDate;
+    use hzpoint::HzPoint;
+    use super::super::test_suit::approx;
+    use num_traits::float::Float;
+    #[test]
+    fn it_works() {
+        let obs = LonLat::from_ll(Angle(120.0.to_radians()), Angle(30.0.to_radians()));
+        let time = NaiveDate::from_ymd(2000, 1, 1).and_hms(12, 0, 0);
+        let hz = HzPoint::from_altaz(Angle(30.0.to_radians()), Angle(45.0.to_radians()));
+
+        let radec = obs.eqpoint_at(hz, time);
+
+        assert!(approx(radec.ra.v().to_degrees(), 118.75969886184627, 1e-10));
+        assert!(approx(radec.dec.v().to_degrees(), 51.29080769669911, 1e-10));
+
+        let hz1 = radec.hzpoint_at(obs, time);
+        assert!(approx(hz1.alt.0, hz.alt.0, 1e-10));
+        assert!(approx(hz1.az.0, hz.az.0, 1e-10));
+    }
+}

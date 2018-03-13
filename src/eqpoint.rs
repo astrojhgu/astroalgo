@@ -1,6 +1,9 @@
 use std::clone::Clone;
 use std::marker::Copy;
+use std::convert::From;
 use super::quant::{Angle, Epoch, Jd};
+use super::precession::epoch_convert;
+use std::fmt::{Display, Error, Formatter};
 
 pub struct EqPoint {
     pub ra: Angle,
@@ -21,7 +24,7 @@ impl Copy for EqPoint {}
 pub struct EqPointAtEpoch {
     pub ra: Angle,
     pub dec: Angle,
-    pub jd: Jd,
+    pub epoch: Epoch,
 }
 
 impl Clone for EqPointAtEpoch {
@@ -29,7 +32,7 @@ impl Clone for EqPointAtEpoch {
         EqPointAtEpoch {
             ra: self.ra,
             dec: self.dec,
-            jd: self.jd,
+            epoch: self.epoch,
         }
     }
 }
@@ -45,7 +48,35 @@ impl EqPoint {
         EqPointAtEpoch {
             ra: self.ra,
             dec: self.dec,
-            jd: Jd::from(ep),
+            epoch: ep,
+        }
+    }
+}
+
+impl Display for EqPoint {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
+        write!(f, "{} {}", self.ra.show_hms(), self.dec.show_dms())
+    }
+}
+
+impl EqPointAtEpoch {
+    pub fn to_epoch(&self, ep: Epoch) -> EqPointAtEpoch {
+        epoch_convert(
+            self.epoch,
+            ep,
+            &EqPoint {
+                ra: self.ra,
+                dec: self.dec,
+            },
+        ).at_epoch(ep)
+    }
+}
+
+impl From<EqPointAtEpoch> for EqPoint {
+    fn from(eqep: EqPointAtEpoch) -> EqPoint {
+        EqPoint {
+            ra: eqep.ra,
+            dec: eqep.dec,
         }
     }
 }

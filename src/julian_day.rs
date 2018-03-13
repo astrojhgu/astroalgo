@@ -1,4 +1,5 @@
 use chrono::naive::{NaiveDate, NaiveDateTime};
+use chrono::Duration;
 use chrono::Datelike;
 use chrono::Timelike;
 use super::quant::{Epoch, Jd};
@@ -7,7 +8,14 @@ pub trait ToJd {
     fn to_jd(&self) -> Jd;
 }
 
-pub fn datetime_to_mean_jd(dt: &NaiveDateTime) -> Jd {
+pub fn datetime_to_jd(dt: &NaiveDateTime) -> Jd {
+    //https://en.wikipedia.org/wiki/Julian_day
+    let d = dt.signed_duration_since(NaiveDate::from_ymd(-4713, 11, 24).and_hms(12, 0, 0));
+    let secs = d.num_seconds();
+    let nanosecs = (d - Duration::seconds(secs)).num_nanoseconds().unwrap() as u64;
+    let fsecs = secs as f64 + nanosecs as f64 / 1e9;
+    Jd(fsecs / 86400.0)
+    /*
     let (y, m) = match dt {
         &x if x.month() <= 2 => (x.year() - 1, x.month() + 12),
         &x => (x.year(), x.month()),
@@ -30,21 +38,30 @@ pub fn datetime_to_mean_jd(dt: &NaiveDateTime) -> Jd {
         panic!("JD cannot < 0");
     }
     Jd(jd)
+    */
 }
 
 impl ToJd for NaiveDateTime {
     fn to_jd(&self) -> Jd {
-        datetime_to_mean_jd(self)
+        datetime_to_jd(self)
     }
 }
 
 impl ToJd for NaiveDate {
     fn to_jd(&self) -> Jd {
-        datetime_to_mean_jd(&(self.and_hms(0, 0, 0)))
+        datetime_to_jd(&(self.and_hms(0, 0, 0)))
     }
 }
 
-pub fn mean_jd_to_datetime(jd: Jd) -> NaiveDateTime {
+pub fn jd_to_datetime(jd: Jd) -> NaiveDateTime {
+    let secs = jd.0 * 86400.0;
+    let isec = secs.floor();
+    let ns = ((secs - isec) * 1e9) as i64;
+    let d = Duration::seconds(isec as i64) + Duration::nanoseconds(ns);
+
+    NaiveDate::from_ymd(-4713, 11, 24).and_hms(12, 0, 0) + d
+
+    /*
     let (z, f) = {
         let jd1 = jd.0 + 0.5;
         let z = jd1.trunc();
@@ -85,6 +102,7 @@ pub fn mean_jd_to_datetime(jd: Jd) -> NaiveDateTime {
     };
 
     NaiveDate::from_ymd(year, month, day).and_hms_nano(h as u32, m as u32, s as u32, ns)
+    */
 }
 
 impl From<Jd> for Epoch {
@@ -96,5 +114,56 @@ impl From<Jd> for Epoch {
 impl From<Epoch> for Jd {
     fn from(ep: Epoch) -> Jd {
         Jd((ep.0 - 2000.0) * 365.25 + 2451_545.0)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::datetime_to_jd;
+    use chrono::NaiveDate;
+    use super::super::test_suit::approx;
+    use julian_day::ToJd;
+    #[test]
+    fn it_works() {
+        assert!(approx(
+            NaiveDate::from_ymd(2000, 1, 1).and_hms(12, 0, 0).to_jd().0,
+            2451545.0,
+            1e-10
+        ));
+        assert!(approx(
+            NaiveDate::from_ymd(1999, 1, 1).and_hms(0, 0, 0).to_jd().0,
+            2451179.5,
+            1e-10
+        ));
+        assert!(approx(
+            NaiveDate::from_ymd(1987, 1, 27).and_hms(0, 0, 0).to_jd().0,
+            2446822.5,
+            1e-10
+        ));
+        assert!(approx(
+            NaiveDate::from_ymd(1987, 6, 19).and_hms(12, 0, 0).to_jd().0,
+            2446966.0,
+            1e-10
+        ));
+        assert!(approx(
+            NaiveDate::from_ymd(1988, 6, 19).and_hms(12, 0, 0).to_jd().0,
+            2447332.0,
+            1e-10
+        ));
+        assert!(approx(
+            NaiveDate::from_ymd(1900, 1, 1).and_hms(0, 0, 0).to_jd().0,
+            2415020.5,
+            1e-10
+        ));
+        assert!(approx(
+            NaiveDate::from_ymd(1600, 1, 1).and_hms(0, 0, 0).to_jd().0,
+            2305447.5,
+            1e-10
+        ));
+        assert!(approx(
+            NaiveDate::from_ymd(1600, 12, 31).and_hms(0, 0, 0).to_jd().0,
+            2305812.5,
+            1e-10
+        ));
     }
 }

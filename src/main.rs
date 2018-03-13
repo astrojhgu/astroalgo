@@ -19,21 +19,20 @@ use astroalgo::julian_day::ToJd;
 use astroalgo::precession::epoch_convert;
 use astroalgo::quant::Angle;
 use astroalgo::quant::HasValue;
+use astroalgo::quant::Epoch;
 fn main() {
-    let obs = LonLat::from_ll(Angle(120.0.to_radians()), Angle(30.0.to_radians()));
-    let time = NaiveDate::from_ymd(2001, 1, 1).and_hms(12, 0, 0);
-    let hz = HzPoint::from_altaz(Angle(30.0.to_radians()), Angle(45.0.to_radians()));
+    let eqpoint = EqPoint::from_radec(
+        Angle::from_hms(2, 44, 12.975),
+        Angle::from_dms(49, 13, 39.90),
+    );
 
-    let radec = obs.eqpoint_at(hz, time);
-    println!("{} {}", radec.ra.0.to_degrees(), radec.dec.0.to_degrees());
+    let epoch1 = Epoch(2000.0);
+    let epoch2 = Epoch::from(NaiveDate::from_ymd(2028, 11, 13).and_hms(4, 33, 36).to_jd());
+    let aa: EqPoint = eqpoint.at_epoch(epoch1).to_epoch(epoch2).into();
 
-    let epoch1 = time.to_jd();
-    let epoch2 = NaiveDate::from_ymd(2000, 1, 1).and_hms(12, 0, 0).to_jd();
-
-    let radec1 = epoch_convert(epoch1, epoch2, &radec);
+    println!("{}", aa);
     println!(
-        "{} {}",
-        radec1.ra.v().to_degrees(),
-        radec1.dec.0.to_degrees()
+        "{}",
+        format!("{}", aa) == "2:46:11.331328730660983 49:20:54.539198835223665"
     );
 }
