@@ -8,6 +8,8 @@ pub mod eqpoint;
 pub mod earth_position;
 pub mod coord_trans;
 pub mod hzpoint;
+pub mod nutation;
+pub mod quant;
 
 #[cfg(test)]
 mod tests {

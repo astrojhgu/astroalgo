@@ -6,9 +6,11 @@ https://commons.wikimedia.org/wiki/File:Azimuth-Altitude_schematic.svg#/media/Fi
 use std::clone::Clone;
 use std::marker::Copy;
 
+use super::quant::Angle;
+
 pub struct HzPoint {
-    pub az: f64,
-    pub alt: f64,
+    pub az: Angle,
+    pub alt: Angle,
 }
 
 impl Clone for HzPoint {
@@ -21,3 +23,9 @@ impl Clone for HzPoint {
 }
 
 impl Copy for HzPoint {}
+
+impl HzPoint {
+    pub fn from_altaz(alt: Angle, az: Angle) -> HzPoint {
+        HzPoint { alt: alt, az: az }
+    }
+}

@@ -1,9 +1,10 @@
 use std::clone::Clone;
 use std::marker::Copy;
+use super::quant::{Angle, Epoch, Jd};
 
 pub struct EqPoint {
-    pub ra: f64,
-    pub dec: f64,
+    pub ra: Angle,
+    pub dec: Angle,
 }
 
 impl Clone for EqPoint {
@@ -18,9 +19,9 @@ impl Clone for EqPoint {
 impl Copy for EqPoint {}
 
 pub struct EqPointAtEpoch {
-    pub ra: f64,
-    pub dec: f64,
-    pub jd: f64,
+    pub ra: Angle,
+    pub dec: Angle,
+    pub jd: Jd,
 }
 
 impl Clone for EqPointAtEpoch {
@@ -34,3 +35,17 @@ impl Clone for EqPointAtEpoch {
 }
 
 impl Copy for EqPointAtEpoch {}
+
+impl EqPoint {
+    pub fn from_radec(ra: Angle, dec: Angle) -> EqPoint {
+        EqPoint { ra: ra, dec: dec }
+    }
+
+    pub fn at_epoch(&self, ep: Epoch) -> EqPointAtEpoch {
+        EqPointAtEpoch {
+            ra: self.ra,
+            dec: self.dec,
+            jd: Jd::from(ep),
+        }
+    }
+}

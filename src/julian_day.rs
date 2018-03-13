@@ -1,12 +1,13 @@
 use chrono::naive::{NaiveDate, NaiveDateTime};
 use chrono::Datelike;
 use chrono::Timelike;
+use super::quant::{Epoch, Jd};
 
 pub trait ToJd {
-    fn to_jd(&self) -> f64;
+    fn to_jd(&self) -> Jd;
 }
 
-pub fn datetime_to_jd(dt: &NaiveDateTime) -> f64 {
+pub fn datetime_to_mean_jd(dt: &NaiveDateTime) -> Jd {
     let (y, m) = match dt {
         &x if x.month() <= 2 => (x.year() - 1, x.month() + 12),
         &x => (x.year(), x.month()),
@@ -28,18 +29,24 @@ pub fn datetime_to_jd(dt: &NaiveDateTime) -> f64 {
     if jd < 0.0 {
         panic!("JD cannot < 0");
     }
-    jd
+    Jd(jd)
 }
 
 impl ToJd for NaiveDateTime {
-    fn to_jd(&self) -> f64 {
-        datetime_to_jd(self)
+    fn to_jd(&self) -> Jd {
+        datetime_to_mean_jd(self)
     }
 }
 
-pub fn jd_to_datetime(jd: f64) -> NaiveDateTime {
+impl ToJd for NaiveDate {
+    fn to_jd(&self) -> Jd {
+        datetime_to_mean_jd(&(self.and_hms(0, 0, 0)))
+    }
+}
+
+pub fn mean_jd_to_datetime(jd: Jd) -> NaiveDateTime {
     let (z, f) = {
-        let jd1 = jd + 0.5;
+        let jd1 = jd.0 + 0.5;
         let z = jd1.trunc();
         let f = jd1 - z;
         (z, f)
@@ -78,4 +85,16 @@ pub fn jd_to_datetime(jd: f64) -> NaiveDateTime {
     };
 
     NaiveDate::from_ymd(year, month, day).and_hms_nano(h as u32, m as u32, s as u32, ns)
+}
+
+impl From<Jd> for Epoch {
+    fn from(jd: Jd) -> Epoch {
+        Epoch(2000.0 + (jd.0 - 2451_545.0) / 365.25)
+    }
+}
+
+impl From<Epoch> for Jd {
+    fn from(ep: Epoch) -> Jd {
+        Jd((ep.0 - 2000.0) * 365.25 + 2451_545.0)
+    }
 }

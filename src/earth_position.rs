@@ -1,13 +1,14 @@
 use std::clone::Clone;
 use std::marker::Copy;
 use std::convert::From;
+use quant::{Angle, Length};
 
 const SEMI_MAJOR_AXIS: f64 = 6_378_137.0;
 const SEMI_MINOR_AXIS: f64 = 6_356_752.3;
 
 pub struct LonLat {
-    pub lon: f64,
-    pub lat: f64,
+    pub lon: Angle,
+    pub lat: Angle,
 }
 
 impl Clone for LonLat {
@@ -22,9 +23,9 @@ impl Clone for LonLat {
 impl Copy for LonLat {}
 
 pub struct LonLatHeight {
-    pub lon: f64,
-    pub lat: f64,
-    pub height: f64,
+    pub lon: Angle,
+    pub lat: Angle,
+    pub height: Length,
 }
 
 impl Clone for LonLatHeight {
@@ -40,11 +41,11 @@ impl Clone for LonLatHeight {
 impl Copy for LonLatHeight {}
 
 impl LonLat {
-    pub fn from_ll(lon: f64, lat: f64) -> LonLat {
+    pub fn from_ll(lon: Angle, lat: Angle) -> LonLat {
         LonLat { lon: lon, lat: lat }
     }
 
-    pub fn with_height(&self, height: f64) -> LonLatHeight {
+    pub fn with_height(&self, height: Length) -> LonLatHeight {
         LonLatHeight {
             lon: self.lon,
             lat: self.lat,
@@ -54,13 +55,13 @@ impl LonLat {
 }
 
 pub struct Ecef {
-    pub x: f64,
-    pub y: f64,
-    pub z: f64,
+    pub x: Length,
+    pub y: Length,
+    pub z: Length,
 }
 
 impl Ecef {
-    pub fn from_xyz(x: f64, y: f64, z: f64) -> Ecef {
+    pub fn from_xyz(x: Length, y: Length, z: Length) -> Ecef {
         Ecef { x: x, y: y, z: z }
     }
 }
@@ -78,9 +79,9 @@ pub fn llh2xyz(llh: &LonLatHeight) -> Ecef {
     let a = SEMI_MAJOR_AXIS;
     let b = SEMI_MINOR_AXIS;
 
-    let phi = llh.lat;
-    let lambda = llh.lon;
-    let h = llh.height;
+    let phi = llh.lat.0;
+    let lambda = llh.lon.0;
+    let h = llh.height.0;
     let n = normal(phi);
     let cphi = phi.cos();
     let sphi = phi.sin();
@@ -89,7 +90,7 @@ pub fn llh2xyz(llh: &LonLatHeight) -> Ecef {
     let x = (n + h) * cphi * clambda;
     let y = (n + h) * cphi * slambda;
     let z = ((b / a).powi(2) * n + h) * sphi;
-    Ecef::from_xyz(x, y, z)
+    Ecef::from_xyz(Length(x), Length(y), Length(z))
 }
 
 #[allow(non_snake_case)]
@@ -98,9 +99,9 @@ pub fn xyz2llh(xyz: &Ecef) -> LonLatHeight {
     let a = SEMI_MAJOR_AXIS;
     let b = SEMI_MINOR_AXIS;
 
-    let x = xyz.x;
-    let y = xyz.y;
-    let z = xyz.z;
+    let x = xyz.x.0;
+    let y = xyz.y.0;
+    let z = xyz.z.0;
 
     let r = (x.powi(2) + y.powi(2)).sqrt();
     let e_prime_square = (a.powi(2) - b.powi(2)) / b.powi(2);
@@ -123,18 +124,19 @@ pub fn xyz2llh(xyz: &Ecef) -> LonLatHeight {
     let phi = (z + e_prime_square * Z0).atan2(r);
     let lambda = y.atan2(x);
     LonLatHeight {
-        lon: lambda,
-        lat: phi,
-        height: h,
+        lon: Angle(lambda),
+        lat: Angle(phi),
+        height: Length(h),
     }
 }
 
+/*
 impl<'a> From<&'a LonLatHeight> for Ecef {
     fn from(llh: &LonLatHeight) -> Ecef {
         llh2xyz(llh)
     }
 }
-
+*/
 impl From<LonLatHeight> for Ecef {
     fn from(llh: LonLatHeight) -> Ecef {
         llh2xyz(&llh)
@@ -171,6 +173,7 @@ impl From<LonLatHeight> for LonLat {
     }
 }
 
+/*
 impl<'a> From<&'a LonLat> for LonLat {
     fn from(ll: &'a LonLat) -> LonLat {
         LonLat {
@@ -179,3 +182,4 @@ impl<'a> From<&'a LonLat> for LonLat {
         }
     }
 }
+*/

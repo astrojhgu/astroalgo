@@ -1,12 +1,13 @@
 use super::eqpoint::EqPoint;
+use super::quant::{Angle, Jd};
 
 fn sec2rad(x: f64) -> f64 {
     (x / 3600.0).to_radians()
 }
 
-pub fn epoch_convert(jd_orig: f64, jd_dest: f64, p: &EqPoint) -> EqPoint {
-    let tt = (jd_orig - 2451545.0) / 36525.0;
-    let t = (jd_dest - jd_orig) / 36525.0;
+pub fn epoch_convert(jd_orig: Jd, jd_dest: Jd, p: &EqPoint) -> EqPoint {
+    let tt = (jd_orig.0 - 2451545.0) / 36525.0;
+    let t = (jd_dest.0 - jd_orig.0) / 36525.0;
     let zeta = sec2rad(
         (2306.2181 + 1.39656 * tt - 0.000139 * tt.powi(2)) * t
             + (0.30188 - 0.000344 * tt) * t.powi(2) + 0.017998 * t.powi(3),
@@ -20,8 +21,8 @@ pub fn epoch_convert(jd_orig: f64, jd_dest: f64, p: &EqPoint) -> EqPoint {
             - (0.42665 + 0.000217 * tt) * t.powi(2) - 0.041833 * t.powi(3),
     );
 
-    let delta0 = p.dec;
-    let alpha0 = p.ra;
+    let delta0 = p.dec.0;
+    let alpha0 = p.ra.0;
     let a = delta0.cos() * (alpha0 + zeta).sin();
     let b = theta.cos() * delta0.cos() * (alpha0 + zeta).cos() - theta.sin() * delta0.sin();
     let c = theta.sin() * delta0.cos() * (alpha0 + zeta).cos() + theta.cos() * delta0.sin();
@@ -29,7 +30,7 @@ pub fn epoch_convert(jd_orig: f64, jd_dest: f64, p: &EqPoint) -> EqPoint {
     let alpha = z + a.atan2(b);
     let delta = c.asin();
     EqPoint {
-        ra: alpha,
-        dec: delta,
+        ra: Angle(alpha),
+        dec: Angle(delta),
     }
 }

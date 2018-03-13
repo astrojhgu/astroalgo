@@ -1,29 +1,39 @@
+#![allow(unused_imports)]
+#![allow(unused_variables)]
 extern crate astroalgo;
 extern crate chrono;
 extern crate num_traits;
 
 use chrono::naive::NaiveDate;
+use chrono::naive::NaiveDateTime;
 use num_traits::float::Float;
 
 use astroalgo::earth_position::LonLat;
+use astroalgo::earth_position::Ecef;
 use astroalgo::eqpoint::EqPoint;
 use astroalgo::hzpoint::HzPoint;
+use astroalgo::sidereal::{IntoApparentGreenSidereal, IntoMeanGreenSidereal};
+use astroalgo::nutation;
+use astroalgo::julian_day::ToJd;
 
+use astroalgo::precession::epoch_convert;
+use astroalgo::quant::Angle;
+use astroalgo::quant::HasValue;
 fn main() {
-    let star = LonLat::from_ll(120.0.to_radians(), 30.0.to_radians()).eqpoint_at(
-        &HzPoint {
-            az: 120.0.to_radians(),
-            alt: 50.0.to_radians(),
-        },
-        &NaiveDate::from_ymd(2012, 12, 1).and_hms(12, 0, 0),
-    );
-    println!("{} {}", star.ra.to_degrees(), star.dec.to_degrees());
+    let obs = LonLat::from_ll(Angle(120.0.to_radians()), Angle(30.0.to_radians()));
+    let time = NaiveDate::from_ymd(2001, 1, 1).and_hms(12, 0, 0);
+    let hz = HzPoint::from_altaz(Angle(30.0.to_radians()), Angle(45.0.to_radians()));
 
-    //let hz=LonLat::from(&LonLat::from_ll(12.0, 2.0));
+    let radec = obs.eqpoint_at(hz, time);
+    println!("{} {}", radec.ra.0.to_degrees(), radec.dec.0.to_degrees());
 
-    let hz = star.hzpoint_at(
-        &LonLat::from_ll(120.0.to_radians(), 30.0.to_radians()),
-        &NaiveDate::from_ymd(2012, 12, 1).and_hms(12, 0, 0),
+    let epoch1 = time.to_jd();
+    let epoch2 = NaiveDate::from_ymd(2000, 1, 1).and_hms(12, 0, 0).to_jd();
+
+    let radec1 = epoch_convert(epoch1, epoch2, &radec);
+    println!(
+        "{} {}",
+        radec1.ra.v().to_degrees(),
+        radec1.dec.0.to_degrees()
     );
-    println!("{} {}", hz.az.to_degrees(), hz.alt.to_degrees());
 }
