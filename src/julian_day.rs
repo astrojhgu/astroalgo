@@ -1,7 +1,6 @@
 use chrono::naive::{NaiveDate, NaiveDateTime};
 use chrono::Duration;
-use chrono::Datelike;
-use chrono::Timelike;
+
 use super::quant::{Epoch, Jd};
 
 pub trait ToJd {

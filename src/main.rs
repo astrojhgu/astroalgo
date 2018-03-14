@@ -17,22 +17,35 @@ use astroalgo::nutation;
 use astroalgo::julian_day::ToJd;
 
 use astroalgo::precession::epoch_convert;
-use astroalgo::quant::Angle;
+use astroalgo::quant::{Angle, AsAngle};
 use astroalgo::quant::HasValue;
 use astroalgo::quant::Epoch;
+use astroalgo::parallactic;
+use astroalgo::coord_trans;
+
 fn main() {
     let eqpoint = EqPoint::from_radec(
         Angle::from_hms(2, 44, 12.975),
         Angle::from_dms(49, 13, 39.90),
     );
 
-    let epoch1 = Epoch(2000.0);
-    let epoch2 = Epoch::from(NaiveDate::from_ymd(2028, 11, 13).and_hms(4, 33, 36).to_jd());
-    let aa: EqPoint = eqpoint.at_epoch(epoch1).to_epoch(epoch2).into();
+    let pa = eqpoint.parallactic_angle_at(
+        LonLat::from_ll(0.0.to_radians().as_angle(), (-90.0).to_radians().as_angle()),
+        NaiveDate::from_ymd(2012, 12, 1).and_hms(12, 0, 0),
+    );
+    println!("{}", pa.show_dms());
 
-    println!("{}", aa);
+    let obs = LonLat::from_ll(120.0.to_radians().as_angle(), 30.0.to_radians().as_angle());
+    obs.eqpoint_at(
+        HzPoint::from_altaz(30.0.to_radians().as_angle(), 45.0.to_radians().as_angle()),
+        NaiveDate::from_ymd(2012, 1, 1).and_hms(12, 0, 0),
+    );
     println!(
         "{}",
-        format!("{}", aa) == "2:46:11.331328730660983 49:20:54.539198835223665"
+        parallactic::parallactic_angle(
+            120.0.to_radians().as_angle(),
+            60.0.to_radians().as_angle(),
+            30.0.to_radians().as_angle()
+        ).show_dms()
     );
 }

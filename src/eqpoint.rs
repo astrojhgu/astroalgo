@@ -1,7 +1,7 @@
 use std::clone::Clone;
 use std::marker::Copy;
 use std::convert::From;
-use super::quant::{Angle, Epoch, Jd};
+use super::quant::{Angle, Epoch};
 use super::precession::epoch_convert;
 use std::fmt::{Display, Error, Formatter};
 

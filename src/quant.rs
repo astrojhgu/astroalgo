@@ -40,7 +40,7 @@ impl Angle {
     }
 
     pub fn show_hms(&self) -> String {
-        let deg = self.0.to_degrees() - (self.0.to_degrees() / 360.0).floor() * 360.0;
+        //let deg = self.0.to_degrees() - (self.0.to_degrees() / 360.0).floor() * 360.0;
 
         let ha = self.0.to_degrees() / 15.0;
 

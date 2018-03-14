@@ -10,6 +10,8 @@ pub mod coord_trans;
 pub mod hzpoint;
 pub mod nutation;
 pub mod quant;
+pub mod parallactic;
+
 pub mod test_suit;
 
 #[cfg(test)]

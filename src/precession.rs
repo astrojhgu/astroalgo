@@ -1,5 +1,5 @@
 use super::eqpoint::EqPoint;
-use super::quant::{Angle, Epoch, Jd};
+use super::quant::{Angle, Epoch};
 
 fn sec2rad(x: f64) -> f64 {
     (x / 3600.0).to_radians()

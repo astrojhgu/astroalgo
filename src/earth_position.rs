@@ -164,6 +164,12 @@ impl<'a> From<&'a LonLatHeight> for LonLat {
     }
 }
 
+impl From<Ecef> for LonLat {
+    fn from(ecef: Ecef) -> LonLat {
+        LonLat::from(LonLatHeight::from(ecef))
+    }
+}
+
 impl From<LonLatHeight> for LonLat {
     fn from(llh: LonLatHeight) -> LonLat {
         LonLat {
