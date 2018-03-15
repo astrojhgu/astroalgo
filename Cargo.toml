@@ -6,3 +6,6 @@ authors = ["Gu Junhua <jhgu@nao.cas.cn>"]
 [dependencies]
 chrono = ">=0.4"
 num-traits = ">=0.2"
+
+[dependencies.scorus]
+path="../scorus"
