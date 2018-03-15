@@ -39,4 +39,9 @@ fn main() {
         time,
     );
     println!("{} {}", pa.x, pa.y);
+
+    let p1=EqPoint::from_radec(Angle::from_hms(14,15,39.7), Angle::from_dms(19,10,57.0));
+    let p2=EqPoint::from_radec(Angle::from_hms(13,25,11.6), Angle::from_dms(-11, 9, 41.0));
+
+    println!("{}", p1.sep(p2).0.to_degrees());
 }

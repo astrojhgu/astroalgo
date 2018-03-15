@@ -51,6 +51,14 @@ impl EqPoint {
             epoch: ep,
         }
     }
+
+    pub fn sep(&self, another:EqPoint)->Angle{
+        let d1=self.dec.0;
+        let d2=another.dec.0;
+        let a1=self.ra.0;
+        let a2=another.ra.0;
+        Angle((d1.sin()*d2.sin()+d1.cos()*d2.cos()*(a1-a2).cos()).acos())
+    }
 }
 
 impl Display for EqPoint {
