@@ -12,7 +12,8 @@ pub mod hzpoint;
 pub mod nutation;
 pub mod quant;
 pub mod parallactic;
-
+pub mod cosmology;
+pub mod constants;
 pub mod test_suit;
 
 pub use scorus::coordinates::vec2d::Vec2d;
