@@ -42,9 +42,15 @@ impl Angle {
     pub fn show_hms(&self) -> String {
         //let deg = self.0.to_degrees() - (self.0.to_degrees() / 360.0).floor() * 360.0;
 
-        let ha = self.0.to_degrees() / 15.0;
+        let mut ha = self.0.to_degrees() / 15.0;
 
-        let ha = ha.abs();
+        //let ha = ha.abs();
+        while ha < 0.0{
+            ha+=24.0;
+        }
+        while ha>=24.0{
+            ha-=24.0;
+        }
         let h = ha.floor() as u32;
 
         let m = ((ha - h as f64) * 60.0).floor() as u32;

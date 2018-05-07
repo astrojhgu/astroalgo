@@ -1,6 +1,6 @@
 #![allow(non_upper_case_globals)]
 #![allow(non_snake_case)]
-use num_traits::float::Float;
+
 
 pub const pi: f64 = 3.14159265358979323846;
 pub const cm_per_m: f64 = 1e2;
