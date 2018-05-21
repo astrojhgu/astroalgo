@@ -45,7 +45,7 @@ impl GalPoint{
         let l=self.l.0;
         let b=self.b.0;
         let y=(l-d1).sin().atan2((l-d1).cos()*d2.sin()-b.tan()*d2.cos());
-        println!("y={}", y);
+        //println!("y={}", y);
         let alpha=y+d3;
         let delta=(b.sin()*d2.sin()+b.cos()*d2.cos()*(l-d1).cos()).asin();
         EqPointAtEpoch{ra:Angle(alpha), dec:Angle(delta), epoch:Epoch(1950.0)}.to_epoch(ep)

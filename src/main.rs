@@ -25,13 +25,7 @@ use astroalgo::coord_trans;
 use astroalgo::galpoint::GalPoint;
 
 fn main() {
-    let ep=EqPoint{ra:Angle::from_hms(17, 48, 59.74), dec:Angle::from_dms(-14, 43, 8.2)}.at_epoch(Epoch(1950.0));
-
-    let gal=GalPoint::from(ep);
-
-    println!("{} {}", gal.l.0.to_degrees(),gal.b.0.to_degrees());
-
-    let ep1=gal.to_eqpoint(Epoch(1950.0));
-    //println!("{} {}", ep1.ra.show_hms(), ep1.dec.show_dms());
-    println!("{} {}", ep1.ra.show_hms(), ep1.dec.show_dms());
+    let ep=EqPoint{ra:Angle::from_hms(05, 19, 49.7), dec:Angle::from_dms(-45, 46, 44.0)}.at_epoch(Epoch(2000.0));
+    let ep1=ep.to_epoch(Epoch(2015.0));
+    println!("{}", EqPoint::from(ep).sep(EqPoint::from(ep1)).show_dms());
 }
