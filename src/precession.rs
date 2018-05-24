@@ -43,7 +43,7 @@ mod tests {
     use super::super::quant::Angle;
     use super::super::quant::Epoch;
     use chrono::naive::NaiveDate;
-    use julian_day::ToJd;
+    use super::super::quant::Jd;
     #[test]
     fn it_works() {
         let eqpoint = EqPoint::from_radec(
@@ -52,7 +52,7 @@ mod tests {
         );
 
         let epoch1 = Epoch(2000.0);
-        let epoch2 = Epoch::from(NaiveDate::from_ymd(2028, 11, 13).and_hms(4, 33, 36).to_jd());
+        let epoch2 = Epoch::from(Jd::from(NaiveDate::from_ymd(2028, 11, 13).and_hms(4, 33, 36)));
         let aa: EqPoint = eqpoint.at_epoch(epoch1).to_epoch(epoch2).into();
 
         assert!(format!("{}", aa) == "2:46:11.331328730660983 49:20:54.539198835223665");

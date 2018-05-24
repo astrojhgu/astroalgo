@@ -14,7 +14,6 @@ use astroalgo::eqpoint::EqPoint;
 use astroalgo::hzpoint::HzPoint;
 use astroalgo::sidereal::{IntoApparentGreenSidereal, IntoMeanGreenSidereal};
 use astroalgo::nutation;
-use astroalgo::julian_day::ToJd;
 
 use astroalgo::precession::epoch_convert;
 use astroalgo::quant::{Angle, AsAngle};

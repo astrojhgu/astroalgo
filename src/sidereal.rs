@@ -1,16 +1,20 @@
 use chrono::naive::{NaiveDate, NaiveDateTime};
 use chrono::Datelike;
-use super::julian_day::ToJd;
+use super::quant::Jd;
 use super::nutation::{mean_obliquity, nut_corr};
 use super::quant::{Angle, Epoch};
 
-pub trait IntoMeanGreenSidereal: ToJd {
-    fn mean_green_sidereal_angle(&self) -> Angle;
+pub trait IntoMeanGreenSidereal:Sized
+    where Jd:From<Self>
+{
+    fn mean_green_sidereal_angle(self) -> Angle;
 }
 
-pub trait IntoApparentGreenSidereal: IntoMeanGreenSidereal {
-    fn apparent_green_sidereal_angle(&self) -> Angle {
-        let ep = Epoch::from(self.to_jd());
+pub trait IntoApparentGreenSidereal: IntoMeanGreenSidereal+Copy+Sized
+    where Jd:From<Self>
+{
+    fn apparent_green_sidereal_angle(self) -> Angle {
+        let ep = Epoch::from(Jd::from(self));
         let eps0 = mean_obliquity(ep).0;
         let nc = nut_corr(ep);
         let eps = eps0 + nc.dobli.0;
@@ -22,8 +26,8 @@ pub trait IntoApparentGreenSidereal: IntoMeanGreenSidereal {
     }
 }
 
-pub fn date_mean_green_sidereal_angle(date: &NaiveDate) -> Angle {
-    let jd = date.and_hms(0, 0, 0).to_jd().0;
+pub fn date_mean_green_sidereal_angle(date: NaiveDate) -> Angle {
+    let jd = Jd::from(date.and_hms(0, 0, 0)).0;
     let t = (jd - 2451_545.0) / 36525.0;
     let mut sdr_deg: f64 = 100.460_618_37 + 36_000.770_053_608 * t + 0.000_387_933 * t.powi(2)
         - t.powi(3) / 38_710_000.0;
@@ -36,10 +40,9 @@ pub fn date_mean_green_sidereal_angle(date: &NaiveDate) -> Angle {
 }
 
 pub fn datetime_mean_green_sidereal_angle(datetime: &NaiveDateTime) -> Angle {
-    let jd = datetime.to_jd().0;
-    let t = (NaiveDate::from_ymd(datetime.year(), datetime.month(), datetime.day())
-        .and_hms(0, 0, 0)
-        .to_jd()
+    let jd = Jd::from(*datetime).0;
+    let t = (Jd::from(NaiveDate::from_ymd(datetime.year(), datetime.month(), datetime.day())
+        .and_hms(0, 0, 0))
         .0 - 2451_545.0) / 36525.0;
 
     let mut sdr_deg = 280.460_618_37 + 360.985_647_366_29 * (jd - 2451_545.0)
@@ -52,7 +55,7 @@ pub fn datetime_mean_green_sidereal_angle(datetime: &NaiveDateTime) -> Angle {
 }
 
 impl IntoMeanGreenSidereal for NaiveDate {
-    fn mean_green_sidereal_angle(&self) -> Angle {
+    fn mean_green_sidereal_angle(self) -> Angle {
         date_mean_green_sidereal_angle(self)
     }
 }
@@ -60,8 +63,8 @@ impl IntoMeanGreenSidereal for NaiveDate {
 impl IntoApparentGreenSidereal for NaiveDate {}
 
 impl IntoMeanGreenSidereal for NaiveDateTime {
-    fn mean_green_sidereal_angle(&self) -> Angle {
-        datetime_mean_green_sidereal_angle(self)
+    fn mean_green_sidereal_angle(self) -> Angle {
+        datetime_mean_green_sidereal_angle(&self)
     }
 }
 

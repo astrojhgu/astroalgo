@@ -1,3 +1,6 @@
+use chrono::naive::{NaiveDate, NaiveDateTime};
+use super::julian_day::datetime_to_jd;
+
 #[derive(Debug, Copy, Clone)]
 pub struct Angle(pub f64);
 
@@ -63,29 +66,35 @@ impl Angle {
 #[derive(Debug, Copy, Clone)]
 pub struct Jd(pub f64);
 
-pub trait AsJd {
-    fn as_jd(&self) -> Jd;
-}
-
-impl AsJd for f64 {
-    fn as_jd(&self) -> Jd {
-        Jd(*self)
+impl From<NaiveDateTime> for Jd{
+    fn from(ndt:NaiveDateTime)->Jd{
+        datetime_to_jd(&ndt)
     }
 }
+
+impl From<NaiveDate> for Jd{
+    fn from(nd:NaiveDate)->Jd{
+        datetime_to_jd(&(nd.and_hms(0,0,0)))
+    }
+}
+
 
 /////////////////////////////////
 #[derive(Debug, Copy, Clone)]
 pub struct Epoch(pub f64);
 
-pub trait AsEpoch {
-    fn as_epoch(&self) -> Epoch;
-}
-
-impl AsEpoch for f64 {
-    fn as_epoch(&self) -> Epoch {
-        Epoch(*self)
+impl From<Jd> for Epoch {
+    fn from(jd: Jd) -> Epoch {
+        Epoch(2000.0 + (jd.0 - 2451_545.0) / 365.25)
     }
 }
+
+impl From<Epoch> for Jd {
+    fn from(ep: Epoch) -> Jd {
+        Jd((ep.0 - 2000.0) * 365.25 + 2451_545.0)
+    }
+}
+
 
 /////////////////////////////////
 #[derive(Debug, Copy, Clone)]

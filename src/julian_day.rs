@@ -3,10 +3,6 @@ use chrono::Duration;
 
 use super::quant::{Epoch, Jd};
 
-pub trait ToJd {
-    fn to_jd(&self) -> Jd;
-}
-
 pub fn datetime_to_jd(dt: &NaiveDateTime) -> Jd {
     //https://en.wikipedia.org/wiki/Julian_day
     let d = dt.signed_duration_since(NaiveDate::from_ymd(-4713, 11, 24).and_hms(12, 0, 0));
@@ -38,18 +34,6 @@ pub fn datetime_to_jd(dt: &NaiveDateTime) -> Jd {
     }
     Jd(jd)
     */
-}
-
-impl ToJd for NaiveDateTime {
-    fn to_jd(&self) -> Jd {
-        datetime_to_jd(self)
-    }
-}
-
-impl ToJd for NaiveDate {
-    fn to_jd(&self) -> Jd {
-        datetime_to_jd(&(self.and_hms(0, 0, 0)))
-    }
 }
 
 pub fn jd_to_datetime(jd: Jd) -> NaiveDateTime {
@@ -104,63 +88,52 @@ pub fn jd_to_datetime(jd: Jd) -> NaiveDateTime {
     */
 }
 
-impl From<Jd> for Epoch {
-    fn from(jd: Jd) -> Epoch {
-        Epoch(2000.0 + (jd.0 - 2451_545.0) / 365.25)
-    }
-}
-
-impl From<Epoch> for Jd {
-    fn from(ep: Epoch) -> Jd {
-        Jd((ep.0 - 2000.0) * 365.25 + 2451_545.0)
-    }
-}
 
 #[cfg(test)]
 mod tests {
     use super::datetime_to_jd;
     use chrono::NaiveDate;
+    use super::super::quant::Jd;
     use super::super::test_suit::approx;
-    use julian_day::ToJd;
     #[test]
     fn it_works() {
         assert!(approx(
-            NaiveDate::from_ymd(2000, 1, 1).and_hms(12, 0, 0).to_jd().0,
+            Jd::from(NaiveDate::from_ymd(2000, 1, 1).and_hms(12, 0, 0)).0,
             2451545.0,
             1e-10
         ));
         assert!(approx(
-            NaiveDate::from_ymd(1999, 1, 1).and_hms(0, 0, 0).to_jd().0,
+            Jd::from(NaiveDate::from_ymd(1999, 1, 1).and_hms(0, 0, 0)).0,
             2451179.5,
             1e-10
         ));
         assert!(approx(
-            NaiveDate::from_ymd(1987, 1, 27).and_hms(0, 0, 0).to_jd().0,
+            Jd::from(NaiveDate::from_ymd(1987, 1, 27).and_hms(0, 0, 0)).0,
             2446822.5,
             1e-10
         ));
         assert!(approx(
-            NaiveDate::from_ymd(1987, 6, 19).and_hms(12, 0, 0).to_jd().0,
+            Jd::from(NaiveDate::from_ymd(1987, 6, 19).and_hms(12, 0, 0)).0,
             2446966.0,
             1e-10
         ));
         assert!(approx(
-            NaiveDate::from_ymd(1988, 6, 19).and_hms(12, 0, 0).to_jd().0,
+            Jd::from(NaiveDate::from_ymd(1988, 6, 19).and_hms(12, 0, 0)).0,
             2447332.0,
             1e-10
         ));
         assert!(approx(
-            NaiveDate::from_ymd(1900, 1, 1).and_hms(0, 0, 0).to_jd().0,
+            Jd::from(NaiveDate::from_ymd(1900, 1, 1).and_hms(0, 0, 0)).0,
             2415020.5,
             1e-10
         ));
         assert!(approx(
-            NaiveDate::from_ymd(1600, 1, 1).and_hms(0, 0, 0).to_jd().0,
+            Jd::from(NaiveDate::from_ymd(1600, 1, 1).and_hms(0, 0, 0)).0,
             2305447.5,
             1e-10
         ));
         assert!(approx(
-            NaiveDate::from_ymd(1600, 12, 31).and_hms(0, 0, 0).to_jd().0,
+            Jd::from(NaiveDate::from_ymd(1600, 12, 31).and_hms(0, 0, 0)).0,
             2305812.5,
             1e-10
         ));

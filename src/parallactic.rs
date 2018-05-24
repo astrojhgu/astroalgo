@@ -5,7 +5,7 @@ use eqpoint::EqPoint;
 use quant::Angle;
 //use num_traits::float::Float;
 use sidereal::IntoApparentGreenSidereal;
-
+use quant::Jd;
 #[allow(non_snake_case)]
 pub fn parallactic_angle(H: Angle, dec: Angle, lat: Angle) -> Angle {
     //let (x,y)=(lat.0.tan() * dec.0.cos() - dec.0.sin() * H.0.cos(), H.0.sin());
@@ -28,6 +28,7 @@ impl EqPoint {
     pub fn parallactic_angle_at<T, P>(&self, p: P, t: T) -> Angle
     where
         T: IntoApparentGreenSidereal,
+        Jd:From<T>,
         LonLat: From<P>,
         P: Copy,
     {
@@ -43,6 +44,7 @@ impl EqPoint {
     #[allow(non_snake_case)]
     pub fn direction_of_zenith<T, P>(&self, p: P, t: T) -> Vec2d<f64>
     where
+        Jd:From<T>,
         T: IntoApparentGreenSidereal,
         LonLat: From<P>,
         P: Copy,

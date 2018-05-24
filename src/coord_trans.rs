@@ -6,13 +6,14 @@ use super::sidereal::IntoApparentGreenSidereal;
 use super::hzpoint::HzPoint;
 use super::eqpoint::EqPoint;
 use super::quant::Angle;
-
+use super::quant::Jd;
 impl EqPoint {
-    pub fn hour_angle_at<O, T>(&self, obs: O, sd: T) -> Angle
+    pub fn hour_angle_at< O, T>(&self, obs: O, sd: T) -> Angle
     where
         LonLat: From<O>,
         O: Copy,
         T: IntoApparentGreenSidereal,
+        Jd:From<T>
     {
         let l = -LonLat::from(obs).lon.0;
         let alpha = self.ra.0;
@@ -30,6 +31,7 @@ impl EqPoint {
         LonLat: From<O>,
         O: Copy,
         T: IntoApparentGreenSidereal,
+    Jd:From<T>
     {
         let H = self.hour_angle_at(obs, sd).0;
         let LonLat { lon: _, lat: phi } = LonLat::from(obs);
@@ -58,6 +60,7 @@ impl LonLat {
     pub fn eqpoint_at<T>(&self, hzp: HzPoint, sd: T) -> EqPoint
     where
         T: IntoApparentGreenSidereal,
+        Jd:From<T>
     {
         let theta0 = sd.mean_green_sidereal_angle().0;
         let l = -self.lon.0;

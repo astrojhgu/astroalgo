@@ -68,15 +68,17 @@ impl Display for EqPoint {
 }
 
 impl EqPointAtEpoch {
-    pub fn to_epoch(&self, ep: Epoch) -> EqPointAtEpoch {
+    pub fn to_epoch<T>(&self, ep: T) -> EqPointAtEpoch
+    where Epoch:From<T>, T:Copy
+    {
         epoch_convert(
             self.epoch,
-            ep,
+            Epoch::from(ep),
             &EqPoint {
                 ra: self.ra,
                 dec: self.dec,
             },
-        ).at_epoch(ep)
+        ).at_epoch(Epoch::from(ep))
     }
 }
 
