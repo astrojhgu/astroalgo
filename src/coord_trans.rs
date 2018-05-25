@@ -17,7 +17,7 @@ impl EqPoint {
     {
         let l = -LonLat::from(obs).lon.0;
         let alpha = self.ra.0;
-        let theta0 = sd.mean_green_sidereal_angle().0;
+        let theta0 = sd.apparent_green_sidereal_angle().0;
         Angle(match theta0 - l - alpha {
             x if x < 0.0 => x + 2.0 * f64::PI(),
             x if x >= 2.0 * f64::PI() => x - 2.0 * f64::PI(),
@@ -46,8 +46,11 @@ impl EqPoint {
         let cdelta = delta.cos();
         let tgdelta = delta.tan();
 
-        let A = (-sH).atan2(tgdelta * cphi - cH * sphi);
+        let mut A = (-sH).atan2(tgdelta * cphi - cH * sphi);
         let h = (sphi * sdelta + cphi * cdelta * cH).asin();
+        if A<0.0{
+            A=A+2.0*f64::PI();
+        }
         HzPoint {
             az: Angle(A),
             alt: Angle(h),

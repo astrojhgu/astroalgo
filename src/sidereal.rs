@@ -21,7 +21,6 @@ pub trait IntoApparentGreenSidereal: IntoMeanGreenSidereal+Copy+Sized
 
         let dphi = nc.dlong.0;
         let corr = dphi * eps.cos();
-
         Angle(self.mean_green_sidereal_angle().0 + corr)
     }
 }

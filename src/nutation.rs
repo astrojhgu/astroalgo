@@ -9,12 +9,20 @@ pub struct NutCorr {
 
 pub fn mean_obliquity(ep: Epoch) -> Angle {
     let jcent = (ep.0 - 2000.0) / 100.0;
-    let u = (jcent - 2000.0) / 100.0;
-    let ob = (23.43929111111111 - 1.3002583333333335 * u - 1.55 * u.powi(2) + 1999.25 * u.powi(3)
-        - 51.38 * u.powi(4) - 249.67 * u.powi(5) - 39.05 * u.powi(6)
-        + 7.12 * u.powi(7) + 27.87 * u.powi(8) + 5.79 * u.powi(9)
-        + 2.45 * u.powi(10))
-        .to_radians();
+
+    let u = jcent / 100.0;
+    let ob_deg = (23.43929111111111 - 4680.93/3600. * u
+                                - 1.55/3600.0 * u.powi(2)
+                                + 1999.25/3600.0 * u.powi(3)
+                                - 51.38/3600.0 * u.powi(4)
+                                - 249.67/3600.0 * u.powi(5)
+                                - 39.05/3600.0 * u.powi(6)
+                                + 7.12/3600.0 * u.powi(7)
+                                + 27.87/3600.0 * u.powi(8)
+                                + 5.79/3600.0 * u.powi(9)
+                                + 2.45/3600.0 * u.powi(10)
+    );
+    let ob=ob_deg.to_radians();
     Angle(ob)
 }
 
