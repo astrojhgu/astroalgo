@@ -1,7 +1,7 @@
-use std::clone::Clone;
-use std::marker::Copy;
-use std::convert::From;
 use quant::{Angle, Length};
+use std::clone::Clone;
+use std::convert::From;
+use std::marker::Copy;
 
 const SEMI_MAJOR_AXIS: f64 = 6_378_137.0;
 const SEMI_MINOR_AXIS: f64 = 6_356_752.3;
@@ -114,7 +114,8 @@ pub fn xyz2llh(xyz: &Ecef) -> LonLatHeight {
     let P = F / (3.0 * (S + 1.0 / S + 1.0).powi(2) * G.powi(2));
     let Q = (1.0 + 2.0 * e_square.powi(2) * P).sqrt();
     let r0 = -P * e_square * r / (1.0 + Q)
-        + (0.5 * a * a * (1.0 + 1.0 / Q) - P * (1.0 - e_square) * z * z / (Q * (1.0 + Q))
+        + (0.5 * a * a * (1.0 + 1.0 / Q)
+            - P * (1.0 - e_square) * z * z / (Q * (1.0 + Q))
             - 0.5 * P * r.powi(2))
             .sqrt();
     let U = ((r - e_square * r0).powi(2) + z.powi(2)).sqrt();

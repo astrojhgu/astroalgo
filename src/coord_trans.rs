@@ -1,19 +1,19 @@
-use std::convert::From;
 use num_traits::float::FloatConst;
+use std::convert::From;
 
 use super::earth_position::LonLat;
-use super::sidereal::IntoApparentGreenSidereal;
-use super::hzpoint::HzPoint;
 use super::eqpoint::EqPoint;
+use super::hzpoint::HzPoint;
 use super::quant::Angle;
 use super::quant::Jd;
+use super::sidereal::IntoApparentGreenSidereal;
 impl EqPoint {
-    pub fn hour_angle_at< O, T>(&self, obs: O, sd: T) -> Angle
+    pub fn hour_angle_at<O, T>(&self, obs: O, sd: T) -> Angle
     where
         LonLat: From<O>,
         O: Copy,
         T: IntoApparentGreenSidereal,
-        Jd:From<T>
+        Jd: From<T>,
     {
         let l = -LonLat::from(obs).lon.0;
         let alpha = self.ra.0;
@@ -31,7 +31,7 @@ impl EqPoint {
         LonLat: From<O>,
         O: Copy,
         T: IntoApparentGreenSidereal,
-    Jd:From<T>
+        Jd: From<T>,
     {
         let H = self.hour_angle_at(obs, sd).0;
         let LonLat { lon: _, lat: phi } = LonLat::from(obs);
@@ -48,8 +48,8 @@ impl EqPoint {
 
         let mut A = (-sH).atan2(tgdelta * cphi - cH * sphi);
         let h = (sphi * sdelta + cphi * cdelta * cH).asin();
-        if A<0.0{
-            A=A+2.0*f64::PI();
+        if A < 0.0 {
+            A = A + 2.0 * f64::PI();
         }
         HzPoint {
             az: Angle(A),
@@ -63,7 +63,7 @@ impl LonLat {
     pub fn eqpoint_at<T>(&self, hzp: HzPoint, sd: T) -> EqPoint
     where
         T: IntoApparentGreenSidereal,
-        Jd:From<T>
+        Jd: From<T>,
     {
         let theta0 = sd.mean_green_sidereal_angle().0;
         let l = -self.lon.0;
@@ -102,9 +102,9 @@ mod tests {
     use super::super::earth_position::LonLat;
     use super::super::quant::{Angle, Length};
     use super::super::quant::{AsAngle, AsLength, HasValue};
+    use super::super::test_suit::approx;
     use chrono::naive::NaiveDate;
     use hzpoint::HzPoint;
-    use super::super::test_suit::approx;
     use num_traits::float::Float;
     #[test]
     fn it_works() {

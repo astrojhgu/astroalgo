@@ -1,9 +1,9 @@
-use std::clone::Clone;
-use std::marker::Copy;
-use std::convert::From;
-use super::quant::{Angle, Epoch};
 use super::precession::epoch_convert;
+use super::quant::{Angle, Epoch};
+use std::clone::Clone;
+use std::convert::From;
 use std::fmt::{Display, Error, Formatter};
+use std::marker::Copy;
 
 pub struct EqPoint {
     pub ra: Angle,
@@ -52,12 +52,12 @@ impl EqPoint {
         }
     }
 
-    pub fn sep(&self, another:EqPoint)->Angle{
-        let d1=self.dec.0;
-        let d2=another.dec.0;
-        let a1=self.ra.0;
-        let a2=another.ra.0;
-        Angle((d1.sin()*d2.sin()+d1.cos()*d2.cos()*(a1-a2).cos()).acos())
+    pub fn sep(&self, another: EqPoint) -> Angle {
+        let d1 = self.dec.0;
+        let d2 = another.dec.0;
+        let a1 = self.ra.0;
+        let a2 = another.ra.0;
+        Angle((d1.sin() * d2.sin() + d1.cos() * d2.cos() * (a1 - a2).cos()).acos())
     }
 }
 
@@ -69,7 +69,9 @@ impl Display for EqPoint {
 
 impl EqPointAtEpoch {
     pub fn to_epoch<T>(&self, ep: T) -> EqPointAtEpoch
-    where Epoch:From<T>, T:Copy
+    where
+        Epoch: From<T>,
+        T: Copy,
     {
         epoch_convert(
             self.epoch,

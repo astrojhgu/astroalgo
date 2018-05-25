@@ -1,17 +1,19 @@
+use super::nutation::{mean_obliquity, nut_corr};
+use super::quant::Jd;
+use super::quant::{Angle, Epoch};
 use chrono::naive::{NaiveDate, NaiveDateTime};
 use chrono::Datelike;
-use super::quant::Jd;
-use super::nutation::{mean_obliquity, nut_corr};
-use super::quant::{Angle, Epoch};
 
-pub trait IntoMeanGreenSidereal:Sized
-    where Jd:From<Self>
+pub trait IntoMeanGreenSidereal: Sized
+where
+    Jd: From<Self>,
 {
     fn mean_green_sidereal_angle(self) -> Angle;
 }
 
-pub trait IntoApparentGreenSidereal: IntoMeanGreenSidereal+Copy+Sized
-    where Jd:From<Self>
+pub trait IntoApparentGreenSidereal: IntoMeanGreenSidereal + Copy + Sized
+where
+    Jd: From<Self>,
 {
     fn apparent_green_sidereal_angle(self) -> Angle {
         let ep = Epoch::from(Jd::from(self));
@@ -40,11 +42,12 @@ pub fn date_mean_green_sidereal_angle(date: NaiveDate) -> Angle {
 
 pub fn datetime_mean_green_sidereal_angle(datetime: &NaiveDateTime) -> Angle {
     let jd = Jd::from(*datetime).0;
-    let t = (Jd::from(NaiveDate::from_ymd(datetime.year(), datetime.month(), datetime.day())
-        .and_hms(0, 0, 0))
-        .0 - 2451_545.0) / 36525.0;
+    let t = (Jd::from(
+        NaiveDate::from_ymd(datetime.year(), datetime.month(), datetime.day()).and_hms(0, 0, 0),
+    ).0 - 2451_545.0) / 36525.0;
 
-    let mut sdr_deg = 280.460_618_37 + 360.985_647_366_29 * (jd - 2451_545.0)
+    let mut sdr_deg = 280.460_618_37
+        + 360.985_647_366_29 * (jd - 2451_545.0)
         + 0.000387_933 * t.powi(2) - t.powi(3) / 38_710_000.0;
     sdr_deg -= (sdr_deg / 360.0).round() * 360.0;
     if sdr_deg < 0.0 {

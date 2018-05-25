@@ -46,15 +46,7 @@ impl Cosmology {
 
     pub fn lcdm_cosmo() -> Cosmology {
         Self::new(
-            0.3089,
-            0.0486,
-            0.6911,
-            0.6774,
-            2.7255,
-            0.8159,
-            0.9667,
-            1.686,
-            0.2454,
+            0.3089, 0.0486, 0.6911, 0.6774, 2.7255, 0.8159, 0.9667, 1.686, 0.2454,
         )
     }
 
@@ -288,8 +280,8 @@ impl Cosmology {
     }
 
     pub fn luminosity_distance(&self, z: f64) -> f64 {
-        use scorus::integration::simpsons_int;
         use super::constants::c;
+        use scorus::integration::simpsons_int;
         let integr = simpsons_int(
             &|z: f64| self.hubble_0() / self.hubble_parameter(z),
             0.0,
@@ -301,8 +293,8 @@ impl Cosmology {
     }
 
     pub fn comoving_radial_distance(&self, z0: f64, z: f64) -> f64 {
-        use scorus::integration::simpsons_int;
         use super::constants::c;
+        use scorus::integration::simpsons_int;
         let integr = simpsons_int(
             &|z: f64| self.hubble_0() / self.hubble_parameter(z),
             z0,

@@ -16,8 +16,8 @@ pub const m_per_km: f64 = 1e3;
 pub const m_per_rsun: f64 = 695500. * m_per_km;
 pub const m_per_rEarth: f64 = 6371000.;
 pub const m_per_au: f64 = 1.49597871e11;
-pub const barn:f64=1e-28;
-pub const Mbarn:f64=barn*1e6;
+pub const barn: f64 = 1e-28;
+pub const Mbarn: f64 = barn * 1e6;
 // masses
 pub const kg_per_amu: f64 = 1.660538921e-27;
 pub const kg_per_msun: f64 = 1.98892e30;

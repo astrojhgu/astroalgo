@@ -1,5 +1,5 @@
-use chrono::naive::{NaiveDate, NaiveDateTime};
 use super::julian_day::datetime_to_jd;
+use chrono::naive::{NaiveDate, NaiveDateTime};
 
 #[derive(Debug, Copy, Clone)]
 pub struct Angle(pub f64);
@@ -36,10 +36,15 @@ impl Angle {
         let sign = deg.signum();
         let deg = deg.abs();
         let d = deg.floor() as u32;
-
         let m = ((deg - d as f64) * 60.0).floor() as u32;
         let s = (deg - d as f64 - m as f64 / 60.0) * 3600.0;
-        format!("{}:{}:{}", sign as i32 * d as i32, m, s)
+        format!(
+            "{}{}:{}:{}",
+            if sign > 0.0 { '+' } else { '-' },
+            d as i32,
+            m,
+            s
+        )
     }
 
     pub fn show_hms(&self) -> String {
@@ -48,11 +53,11 @@ impl Angle {
         let mut ha = self.0.to_degrees() / 15.0;
 
         //let ha = ha.abs();
-        while ha < 0.0{
-            ha+=24.0;
+        while ha < 0.0 {
+            ha += 24.0;
         }
-        while ha>=24.0{
-            ha-=24.0;
+        while ha >= 24.0 {
+            ha -= 24.0;
         }
         let h = ha.floor() as u32;
 
@@ -66,18 +71,17 @@ impl Angle {
 #[derive(Debug, Copy, Clone)]
 pub struct Jd(pub f64);
 
-impl From<NaiveDateTime> for Jd{
-    fn from(ndt:NaiveDateTime)->Jd{
+impl From<NaiveDateTime> for Jd {
+    fn from(ndt: NaiveDateTime) -> Jd {
         datetime_to_jd(&ndt)
     }
 }
 
-impl From<NaiveDate> for Jd{
-    fn from(nd:NaiveDate)->Jd{
-        datetime_to_jd(&(nd.and_hms(0,0,0)))
+impl From<NaiveDate> for Jd {
+    fn from(nd: NaiveDate) -> Jd {
+        datetime_to_jd(&(nd.and_hms(0, 0, 0)))
     }
 }
-
 
 /////////////////////////////////
 #[derive(Debug, Copy, Clone)]
@@ -95,6 +99,11 @@ impl From<Epoch> for Jd {
     }
 }
 
+impl From<NaiveDateTime> for Epoch {
+    fn from(ndt: NaiveDateTime) -> Epoch {
+        Epoch::from(Jd::from(ndt))
+    }
+}
 
 /////////////////////////////////
 #[derive(Debug, Copy, Clone)]
