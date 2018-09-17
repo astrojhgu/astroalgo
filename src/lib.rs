@@ -2,6 +2,11 @@ extern crate chrono;
 extern crate num_traits;
 extern crate scorus;
 
+#[macro_use]
+extern crate serde_derive;
+extern crate serde;
+
+
 pub mod constants;
 pub mod coord_trans;
 pub mod cosmology;

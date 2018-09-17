@@ -1,7 +1,7 @@
 use super::julian_day::datetime_to_jd;
 use chrono::naive::{NaiveDate, NaiveDateTime};
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
 pub struct Angle(pub f64);
 
 pub trait AsAngle {
@@ -106,7 +106,7 @@ impl From<NaiveDateTime> for Epoch {
 }
 
 /////////////////////////////////
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
 pub struct Length(pub f64);
 
 pub trait AsLength {

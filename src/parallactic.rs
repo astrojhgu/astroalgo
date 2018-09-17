@@ -40,7 +40,7 @@ impl EqPoint {
         parallactic_angle(H, dec, lat)
     }
 
-    #[allow(unused_doc_comment)]
+    #[allow(unused_doc_comments)]
     #[allow(non_snake_case)]
     pub fn direction_of_zenith<T, P>(&self, p: P, t: T) -> Vec2d<f64>
     where

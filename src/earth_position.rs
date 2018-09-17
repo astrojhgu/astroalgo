@@ -54,6 +54,7 @@ impl LonLat {
     }
 }
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Ecef {
     pub x: Length,
     pub y: Length,

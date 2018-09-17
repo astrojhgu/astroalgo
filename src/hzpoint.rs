@@ -8,6 +8,7 @@ use std::marker::Copy;
 
 use super::quant::Angle;
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct HzPoint {
     pub az: Angle,
     pub alt: Angle,
