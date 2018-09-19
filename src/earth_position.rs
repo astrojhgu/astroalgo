@@ -6,39 +6,18 @@ use std::marker::Copy;
 const SEMI_MAJOR_AXIS: f64 = 6_378_137.0;
 const SEMI_MINOR_AXIS: f64 = 6_356_752.3;
 
+#[derive(Debug, Clone, Copy)]
 pub struct LonLat {
     pub lon: Angle,
     pub lat: Angle,
 }
 
-impl Clone for LonLat {
-    fn clone(&self) -> Self {
-        LonLat {
-            lon: self.lon,
-            lat: self.lat,
-        }
-    }
-}
-
-impl Copy for LonLat {}
-
+#[derive(Debug, Clone, Copy)]
 pub struct LonLatHeight {
     pub lon: Angle,
     pub lat: Angle,
     pub height: Length,
 }
-
-impl Clone for LonLatHeight {
-    fn clone(&self) -> Self {
-        LonLatHeight {
-            lon: self.lon,
-            lat: self.lat,
-            height: self.height,
-        }
-    }
-}
-
-impl Copy for LonLatHeight {}
 
 impl LonLat {
     pub fn from_ll(lon: Angle, lat: Angle) -> LonLat {
@@ -54,7 +33,7 @@ impl LonLat {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone)]
 pub struct Ecef {
     pub x: Length,
     pub y: Length,
