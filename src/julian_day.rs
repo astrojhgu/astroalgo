@@ -1,7 +1,7 @@
 use chrono::naive::{NaiveDate, NaiveDateTime};
 use chrono::Duration;
 
-use super::quant::{Epoch, Jd};
+use super::quant::Jd;
 
 pub fn datetime_to_jd(dt: &NaiveDateTime) -> Jd {
     //https://en.wikipedia.org/wiki/Julian_day

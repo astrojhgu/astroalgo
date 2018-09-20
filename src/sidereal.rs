@@ -44,11 +44,12 @@ pub fn datetime_mean_green_sidereal_angle(datetime: &NaiveDateTime) -> Angle {
     let jd = Jd::from(*datetime).0;
     let t = (Jd::from(
         NaiveDate::from_ymd(datetime.year(), datetime.month(), datetime.day()).and_hms(0, 0, 0),
-    ).0 - 2451_545.0) / 36525.0;
+    ).0 - 2451_545.0)
+        / 36525.0;
 
-    let mut sdr_deg = 280.460_618_37
-        + 360.985_647_366_29 * (jd - 2451_545.0)
-        + 0.000387_933 * t.powi(2) - t.powi(3) / 38_710_000.0;
+    let mut sdr_deg =
+        280.460_618_37 + 360.985_647_366_29 * (jd - 2451_545.0) + 0.000387_933 * t.powi(2)
+            - t.powi(3) / 38_710_000.0;
     sdr_deg -= (sdr_deg / 360.0).round() * 360.0;
     if sdr_deg < 0.0 {
         sdr_deg += 360.0;

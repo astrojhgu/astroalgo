@@ -211,7 +211,8 @@ impl Cosmology {
 
     pub fn time2z(&self, ti: f64, tf: f64, zi: f64) -> f64 {
         ((1.0 + zi).powf(-1.5) + (3. * self.hubble_0() * self.omega_m_0.sqrt() * (tf - ti) / 2.))
-            .powf(-2. / 3.) - 1.0
+            .powf(-2. / 3.)
+            - 1.0
     }
 
     pub fn lookback_time(&self, zi: f64, zf: f64) -> f64 {
