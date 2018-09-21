@@ -1,43 +1,21 @@
 use super::precession::epoch_convert;
 use super::quant::{Angle, Epoch};
-use std::clone::Clone;
 use std::convert::From;
 use std::fmt::{Display, Error, Formatter};
 use std::marker::Copy;
 
+#[derive(Debug, Serialize, Deserialize, Copy, Clone)]
 pub struct EqPoint {
     pub ra: Angle,
     pub dec: Angle,
 }
 
-impl Clone for EqPoint {
-    fn clone(&self) -> EqPoint {
-        EqPoint {
-            ra: self.ra,
-            dec: self.dec,
-        }
-    }
-}
-
-impl Copy for EqPoint {}
-
+#[derive(Debug, Serialize, Deserialize, Copy, Clone)]
 pub struct EqPointAtEpoch {
     pub ra: Angle,
     pub dec: Angle,
     pub epoch: Epoch,
 }
-
-impl Clone for EqPointAtEpoch {
-    fn clone(&self) -> EqPointAtEpoch {
-        EqPointAtEpoch {
-            ra: self.ra,
-            dec: self.dec,
-            epoch: self.epoch,
-        }
-    }
-}
-
-impl Copy for EqPointAtEpoch {}
 
 impl EqPoint {
     pub fn from_radec(ra: Angle, dec: Angle) -> EqPoint {

@@ -68,7 +68,7 @@ impl Angle {
 }
 
 //////////////////////////////////
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
 pub struct Jd(pub f64);
 
 impl From<NaiveDateTime> for Jd {
@@ -84,7 +84,7 @@ impl From<NaiveDate> for Jd {
 }
 
 /////////////////////////////////
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
 pub struct Epoch(pub f64);
 
 impl From<Jd> for Epoch {
