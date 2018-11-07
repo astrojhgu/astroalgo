@@ -59,7 +59,7 @@ mod tests {
             NaiveDate::from_ymd(2028, 11, 13).and_hms(4, 33, 36),
         ));
         let aa: EqPoint = eqpoint.at_epoch(epoch1).to_epoch(epoch2).into();
-
-        assert!(format!("{}", aa) == "2:46:11.331328730660983 49:20:54.539198835223665");
+        println!("{}", aa);
+        assert!(format!("{}", aa) == "2:46:11.331328730660983 +49:20:54.539198835223665");
     }
 }

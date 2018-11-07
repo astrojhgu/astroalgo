@@ -65,7 +65,8 @@ impl LonLat {
         T: IntoApparentGreenSidereal,
         Jd: From<T>,
     {
-        let theta0 = sd.mean_green_sidereal_angle().0;
+        //let theta0 = sd.mean_green_sidereal_angle().0;
+        let theta0 = sd.apparent_green_sidereal_angle().0;
         let l = -self.lon.0;
         let phi = self.lat.0;
 
@@ -113,11 +114,15 @@ mod tests {
         let hz = HzPoint::from_altaz(Angle(30.0.to_radians()), Angle(45.0.to_radians()));
 
         let radec = obs.eqpoint_at(hz, time);
+        println!("{} {}", radec.ra.v().to_degrees(), radec.dec.v().to_degrees());
 
-        assert!(approx(radec.ra.v().to_degrees(), 118.75969886184627, 1e-10));
+        assert!(approx(radec.ra.v().to_degrees(), 118.75612284126773, 1e-10));
         assert!(approx(radec.dec.v().to_degrees(), 51.29080769669911, 1e-10));
 
         let hz1 = radec.hzpoint_at(obs, time);
+        println!("{} {}", hz1.alt.show_dms(), hz.alt.show_dms());
+        println!("{} {}", hz1.az.show_dms(), hz.az.show_dms());
+
         assert!(approx(hz1.alt.0, hz.alt.0, 1e-10));
         assert!(approx(hz1.az.0, hz.az.0, 1e-10));
     }
