@@ -100,8 +100,8 @@ impl LonLat {
 #[cfg(test)]
 mod tests {
     use super::super::earth_position::LonLat;
-    use super::super::quant::{Angle, Length};
-    use super::super::quant::{AsAngle, AsLength, HasValue};
+    use super::super::quant::{Angle};
+    use super::super::quant::{HasValue};
     use super::super::test_suit::approx;
     use chrono::naive::NaiveDate;
     use hzpoint::HzPoint;

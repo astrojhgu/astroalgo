@@ -92,7 +92,7 @@ pub fn jd_to_datetime(jd: Jd) -> NaiveDateTime {
 mod tests {
     use super::super::quant::Jd;
     use super::super::test_suit::approx;
-    use super::datetime_to_jd;
+    //use super::datetime_to_jd;
     use chrono::NaiveDate;
     #[test]
     fn it_works() {
