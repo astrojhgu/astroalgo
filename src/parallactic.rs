@@ -1,11 +1,11 @@
 use scorus::coordinates::vec2d::Vec2d;
 
-use earth_position::LonLat;
-use eqpoint::EqPoint;
-use quant::Angle;
+use crate::earth_position::LonLat;
+use crate::eqpoint::EqPoint;
+use crate::quant::Angle;
 //use num_traits::float::Float;
-use quant::Jd;
-use sidereal::IntoApparentGreenSidereal;
+use crate::quant::Jd;
+use crate::sidereal::IntoApparentGreenSidereal;
 #[allow(non_snake_case)]
 pub fn parallactic_angle(H: Angle, dec: Angle, lat: Angle) -> Angle {
     //let (x,y)=(lat.0.tan() * dec.0.cos() - dec.0.sin() * H.0.cos(), H.0.sin());

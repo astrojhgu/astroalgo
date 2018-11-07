@@ -1,4 +1,4 @@
-use quant::{Angle, Length};
+use crate::quant::{Angle, Length};
 use std::convert::From;
 
 const SEMI_MAJOR_AXIS: f64 = 6_378_137.0;

@@ -100,11 +100,11 @@ impl LonLat {
 #[cfg(test)]
 mod tests {
     use super::super::earth_position::LonLat;
-    use super::super::quant::{Angle};
-    use super::super::quant::{HasValue};
+    use super::super::quant::Angle;
+    use super::super::quant::HasValue;
     use super::super::test_suit::approx;
     use chrono::naive::NaiveDate;
-    use hzpoint::HzPoint;
+    use crate::hzpoint::HzPoint;
     use num_traits::float::Float;
     #[test]
     fn it_works() {
