@@ -1,7 +1,7 @@
 use chrono::naive::{NaiveDate, NaiveDateTime};
 use chrono::Duration;
 
-use super::quant::Jd;
+use crate::quant::Jd;
 
 pub fn datetime_to_jd(dt: &NaiveDateTime) -> Jd {
     //https://en.wikipedia.org/wiki/Julian_day
@@ -90,9 +90,9 @@ pub fn jd_to_datetime(jd: Jd) -> NaiveDateTime {
 
 #[cfg(test)]
 mod tests {
-    use super::super::quant::Jd;
-    use super::super::test_suit::approx;
-    //use super::datetime_to_jd;
+    use crate::crate::quant::Jd;
+    use crate::crate::test_suit::approx;
+    //use crate::datetime_to_jd;
     use chrono::NaiveDate;
     #[test]
     fn it_works() {

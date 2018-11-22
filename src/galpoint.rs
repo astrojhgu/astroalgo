@@ -2,8 +2,8 @@ use num_traits::float::Float;
 use std::convert::From;
 use std::fmt::{Display, Error, Formatter};
 
-use super::eqpoint::EqPointAtEpoch;
-use super::quant::{Angle, Epoch};
+use crate::eqpoint::EqPointAtEpoch;
+use crate::quant::{Angle, Epoch};
 //use std::fmt::{Formatter};
 
 #[derive(Copy, Clone)]

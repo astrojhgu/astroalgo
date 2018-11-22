@@ -1,12 +1,12 @@
 use num_traits::float::FloatConst;
 use std::convert::From;
 
-use super::earth_position::LonLat;
-use super::eqpoint::EqPoint;
-use super::hzpoint::HzPoint;
-use super::quant::Angle;
-use super::quant::Jd;
-use super::sidereal::IntoApparentGreenSidereal;
+use crate::earth_position::LonLat;
+use crate::eqpoint::EqPoint;
+use crate::hzpoint::HzPoint;
+use crate::quant::Angle;
+use crate::quant::Jd;
+use crate::sidereal::IntoApparentGreenSidereal;
 impl EqPoint {
     pub fn hour_angle_at<O, T>(&self, obs: O, sd: T) -> Angle
     where
@@ -100,11 +100,11 @@ impl LonLat {
 
 #[cfg(test)]
 mod tests {
-    use super::super::earth_position::LonLat;
-    use super::super::quant::Angle;
-    use super::super::quant::HasValue;
-    use super::super::test_suit::approx;
     use chrono::naive::NaiveDate;
+    use crate::crate::earth_position::LonLat;
+    use crate::crate::quant::Angle;
+    use crate::crate::quant::HasValue;
+    use crate::crate::test_suit::approx;
     use crate::hzpoint::HzPoint;
     use num_traits::float::Float;
     #[test]
@@ -114,7 +114,11 @@ mod tests {
         let hz = HzPoint::from_altaz(Angle(30.0.to_radians()), Angle(45.0.to_radians()));
 
         let radec = obs.eqpoint_at(hz, time);
-        println!("{} {}", radec.ra.v().to_degrees(), radec.dec.v().to_degrees());
+        println!(
+            "{} {}",
+            radec.ra.v().to_degrees(),
+            radec.dec.v().to_degrees()
+        );
 
         assert!(approx(radec.ra.v().to_degrees(), 118.75612284126773, 1e-10));
         assert!(approx(radec.dec.v().to_degrees(), 51.29080769669911, 1e-10));

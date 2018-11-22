@@ -1,5 +1,5 @@
-use super::precession::epoch_convert;
-use super::quant::{Angle, Epoch};
+use crate::precession::epoch_convert;
+use crate::quant::{Angle, Epoch};
 use std::convert::From;
 use std::fmt::{Display, Error, Formatter};
 use std::marker::Copy;

@@ -1,8 +1,8 @@
-use super::nutation::{mean_obliquity, nut_corr};
-use super::quant::Jd;
-use super::quant::{Angle, Epoch};
 use chrono::naive::{NaiveDate, NaiveDateTime};
 use chrono::Datelike;
+use crate::nutation::{mean_obliquity, nut_corr};
+use crate::quant::Jd;
+use crate::quant::{Angle, Epoch};
 
 pub trait IntoMeanGreenSidereal: Sized
 where

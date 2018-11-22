@@ -6,7 +6,7 @@ https://commons.wikimedia.org/wiki/File:Azimuth-Altitude_schematic.svg#/media/Fi
 use std::clone::Clone;
 use std::marker::Copy;
 
-use super::quant::Angle;
+use crate::quant::Angle;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct HzPoint {

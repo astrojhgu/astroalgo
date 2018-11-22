@@ -1,5 +1,5 @@
-use super::julian_day::datetime_to_jd;
 use chrono::naive::{NaiveDate, NaiveDateTime};
+use crate::julian_day::datetime_to_jd;
 
 #[derive(Debug, Copy, Clone, Serialize, Deserialize)]
 pub struct Angle(pub f64);

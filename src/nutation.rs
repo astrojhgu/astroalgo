@@ -1,6 +1,6 @@
 //use num_traits::float::Float;
 
-use super::quant::{Angle, Epoch};
+use crate::quant::{Angle, Epoch};
 
 pub struct NutCorr {
     pub dlong: Angle,

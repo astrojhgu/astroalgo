@@ -65,7 +65,7 @@ impl Cosmology {
     }
 
     pub fn hubble_0(&self) -> f64 {
-        use super::constants::km_per_mpc;
+        use crate::constants::km_per_mpc;
         self.h100 * 100.0 / km_per_mpc
     }
 
@@ -82,7 +82,7 @@ impl Cosmology {
     }
 
     pub fn critical_density_now(&self) -> f64 {
-        use super::constants::{pi, G};
+        use crate::constants::{pi, G};
         3.0 * self.hubble_0().powi(2) / (8.0 * pi * G)
     }
 
@@ -115,7 +115,7 @@ impl Cosmology {
     }
 
     pub fn kg_per_baryon(&self) -> f64 {
-        use super::constants::m_H;
+        use crate::constants::m_H;
         m_H / (1.0 - self.Y) / (1.0 + self.y())
     }
 
@@ -152,7 +152,7 @@ impl Cosmology {
     }
 
     pub fn nH0(&self) -> f64 {
-        use super::constants::m_H;
+        use crate::constants::m_H;
         (1.0 - self.Y()) * self.rho_b_z0() / m_H
     }
 
@@ -201,7 +201,7 @@ impl Cosmology {
     }
 
     pub fn hubble_length(&self, z: f64) -> f64 {
-        use super::constants::c;
+        use crate::constants::c;
         c / self.hubble_parameter(z)
     }
 
@@ -224,7 +224,7 @@ impl Cosmology {
     }
 
     pub fn U_cmb(&self, z: f64) -> f64 {
-        use super::constants::{c, sigma_SB};
+        use crate::constants::{c, sigma_SB};
         4.0 * sigma_SB() * self.T_cmb(z).powi(4) / c
     }
 
@@ -262,17 +262,17 @@ impl Cosmology {
     }
 
     pub fn mean_hydrogen_number_density(&self, z: f64) -> f64 {
-        use super::constants::m_H;
+        use crate::constants::m_H;
         (1.0 - self.Y()) * self.mean_baryon_density(z) / m_H
     }
 
     pub fn mean_helium_number_density(&self, z: f64) -> f64 {
-        use super::constants::m_He;
+        use crate::constants::m_He;
         self.Y() * self.mean_baryon_density(z) / m_He
     }
 
     pub fn critical_density(&self, z: f64) -> f64 {
-        use super::constants::{pi, G};
+        use crate::constants::{pi, G};
         3.0 * self.hubble_parameter(z).powi(2) / (8.0 * pi * G)
     }
 
@@ -281,7 +281,7 @@ impl Cosmology {
     }
 
     pub fn luminosity_distance(&self, z: f64) -> f64 {
-        use super::constants::c;
+        use crate::constants::c;
         use scorus::integration::simpsons_int;
         let integr = simpsons_int(
             &|z: f64| self.hubble_0() / self.hubble_parameter(z),
@@ -294,7 +294,7 @@ impl Cosmology {
     }
 
     pub fn comoving_radial_distance(&self, z0: f64, z: f64) -> f64 {
-        use super::constants::c;
+        use crate::constants::c;
         use scorus::integration::simpsons_int;
         let integr = simpsons_int(
             &|z: f64| self.hubble_0() / self.hubble_parameter(z),
@@ -311,7 +311,7 @@ impl Cosmology {
     }
 
     pub fn comoving_line_element(&self, z: f64) -> f64 {
-        use super::constants::c;
+        use crate::constants::c;
         c / self.hubble_parameter(z)
     }
 
@@ -324,7 +324,7 @@ impl Cosmology {
     }
 
     pub fn critical_density_for_collapse(&self, z: f64) -> f64 {
-        use super::constants::pi;
+        use crate::constants::pi;
         let d = self.Omega_matter(z) - 1.0;
         18.0 * pi.powi(2) + 82.0 * d - 39.0 * d.powi(2)
     }

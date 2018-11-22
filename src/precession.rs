@@ -1,5 +1,5 @@
-use super::eqpoint::EqPoint;
-use super::quant::{Angle, Epoch};
+use crate::eqpoint::EqPoint;
+use crate::quant::{Angle, Epoch};
 
 fn sec2rad(x: f64) -> f64 {
     (x / 3600.0).to_radians()
@@ -42,11 +42,11 @@ pub fn epoch_convert(ep0: Epoch, ep: Epoch, p: &EqPoint) -> EqPoint {
 
 #[cfg(test)]
 mod tests {
-    use super::super::eqpoint::EqPoint;
-    use super::super::quant::Angle;
-    use super::super::quant::Epoch;
-    use super::super::quant::Jd;
     use chrono::naive::NaiveDate;
+    use crate::crate::eqpoint::EqPoint;
+    use crate::crate::quant::Angle;
+    use crate::crate::quant::Epoch;
+    use crate::crate::quant::Jd;
     #[test]
     fn it_works() {
         let eqpoint = EqPoint::from_radec(
