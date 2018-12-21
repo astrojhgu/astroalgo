@@ -1,3 +1,5 @@
+#![allow(clippy::many_single_char_names)]
+
 use crate::eqpoint::EqPoint;
 use crate::quant::{Angle, Epoch};
 
@@ -11,19 +13,19 @@ pub fn epoch_convert(ep0: Epoch, ep: Epoch, p: &EqPoint) -> EqPoint {
     //let tt = (jd_orig.0 - 2451545.0) / 36525.0;
     //let t = (jd_dest.0 - jd_orig.0) / 36525.0;
     let zeta = sec2rad(
-        (2306.2181 + 1.39656 * tt - 0.000139 * tt.powi(2)) * t
-            + (0.30188 - 0.000344 * tt) * t.powi(2)
-            + 0.017998 * t.powi(3),
+        (2_306.218_1 + 1.396_56 * tt - 0.000_139 * tt.powi(2)) * t
+            + (0.30188 - 0.000_344 * tt) * t.powi(2)
+            + 0.017_998 * t.powi(3),
     );
     let z = sec2rad(
-        (2306.2181 + 1.39656 * tt - 0.000139 * tt.powi(2)) * t
-            + (1.09468 + 0.000066 * tt) * t.powi(2)
-            + 0.018203 * t.powi(3),
+        (2306.2181 + 1.396_56 * tt - 0.000_139 * tt.powi(2)) * t
+            + (1.09468 + 0.000_066 * tt) * t.powi(2)
+            + 0.018_203 * t.powi(3),
     );
     let theta = sec2rad(
-        (2004.3109 - 0.85330 * tt - 0.000217 * tt.powi(2)) * t
-            - (0.42665 + 0.000217 * tt) * t.powi(2)
-            - 0.041833 * t.powi(3),
+        (2004.3109 - 0.85330 * tt - 0.000_217 * tt.powi(2)) * t
+            - (0.42665 + 0.000_217 * tt) * t.powi(2)
+            - 0.041_833 * t.powi(3),
     );
 
     let delta0 = p.dec.0;

@@ -25,7 +25,7 @@ use astroalgo::quant::{Angle, AsAngle};
 
 fn main() {
     let ep = EqPoint {
-        ra: Angle::from_hms(05, 19, 49.7),
+        ra: Angle::from_hms(5, 19, 49.7),
         dec: Angle::from_dms(-45, 46, 44.0),
     }.at_epoch(Epoch(2000.0));
     let ep1 = ep.to_epoch(Epoch(2015.0));

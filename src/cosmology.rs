@@ -1,3 +1,4 @@
+#![allow(clippy::too_many_arguments)]
 #![allow(non_snake_case)]
 #![allow(dead_code)]
 
@@ -35,12 +36,12 @@ impl Cosmology {
             omega_m_0: om0,
             omega_b_0: ob0,
             omega_l_0: ol0,
-            h100: h100,
+            h100,
             cmb_temp_0: ct0,
             sigma_8: s8,
             primordial_index: idx,
             delta_c0: dc0,
-            Y: Y,
+            Y,
         }
     }
 
@@ -230,10 +231,9 @@ impl Cosmology {
 
     pub fn t_of_z(&self, z: f64) -> f64 {
         let a = 1.0 / (1.0 + z);
-        let t = (2. / 3. / (1.0 - self.omega_m_0).sqrt())
+        (2. / 3. / (1.0 - self.omega_m_0).sqrt())
             * ((a / self.a_eq()).powf(1.5) + (1. + (a / self.a_eq()).powi(3)).sqrt()).ln()
-            / self.hubble_0();
-        t
+            / self.hubble_0()
     }
 
     pub fn T_gas(&self, z: f64) -> f64 {
@@ -303,7 +303,7 @@ impl Cosmology {
             1e-6,
             20,
         ).unwrap();
-        return c * integr / self.hubble_0();
+        c * integr / self.hubble_0()
     }
 
     pub fn proper_radial_distance(&self, z0: f64, z: f64) -> f64 {

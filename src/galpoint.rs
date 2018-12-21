@@ -24,9 +24,9 @@ impl From<EqPointAtEpoch> for GalPoint {
         let alpha = eq1950.ra.0;
         let delta = eq1950.dec.0;
 
-        let d1 = 3.3553954869590985; //192.25 deg
-        let d2 = 0.4782202150464463; //27.4 deg
-        let d3 = 5.288347633542818; //303 deg
+        let d1 = 3.355_395_486_959_098_5; //192.25 deg
+        let d2 = 0.478_220_215_046_446_3; //27.4 deg
+        let d3 = 5.288_347_633_542_818; //303 deg
 
         let x = f64::atan2(
             (d1 - alpha).sin(),
@@ -43,9 +43,9 @@ impl From<EqPointAtEpoch> for GalPoint {
 
 impl GalPoint {
     pub fn to_eqpoint(&self, ep: Epoch) -> EqPointAtEpoch {
-        let d1 = 2.1467549799530254; //123 deg
-        let d2 = 0.4782202150464463; //27.4 deg
-        let d3 = 0.21380283336930536; //12.25 deg
+        let d1 = 2.146_754_979_953_025_4; //123 deg
+        let d2 = 0.478_220_215_046_446_3; //27.4 deg
+        let d3 = 0.213_802_833_369_305_36; //12.25 deg
         let l = self.l.0;
         let b = self.b.0;
         let y = (l - d1)

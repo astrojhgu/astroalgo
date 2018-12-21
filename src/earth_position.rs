@@ -1,3 +1,4 @@
+#![allow(clippy::many_single_char_names)]
 use crate::quant::{Angle, Length};
 use std::convert::From;
 
@@ -19,14 +20,14 @@ pub struct LonLatHeight {
 
 impl LonLat {
     pub fn from_ll(lon: Angle, lat: Angle) -> LonLat {
-        LonLat { lon: lon, lat: lat }
+        LonLat { lon, lat }
     }
 
     pub fn with_height(&self, height: Length) -> LonLatHeight {
         LonLatHeight {
             lon: self.lon,
             lat: self.lat,
-            height: height,
+            height,
         }
     }
 }
@@ -40,7 +41,7 @@ pub struct Ecef {
 
 impl Ecef {
     pub fn from_xyz(x: Length, y: Length, z: Length) -> Ecef {
-        Ecef { x: x, y: y, z: z }
+        Ecef { x, y, z }
     }
 }
 

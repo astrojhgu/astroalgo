@@ -27,6 +27,6 @@ impl Copy for HzPoint {}
 
 impl HzPoint {
     pub fn from_altaz(alt: Angle, az: Angle) -> HzPoint {
-        HzPoint { alt: alt, az: az }
+        HzPoint { alt, az }
     }
 }

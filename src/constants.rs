@@ -2,7 +2,7 @@
 #![allow(non_snake_case)]
 
 
-pub const pi: f64 = 3.14159265358979323846;
+pub const pi: f64 = std::f64::consts::PI;
 pub const cm_per_m: f64 = 1e2;
 pub const m_per_cm: f64 = 1e-2;
 pub const km_per_pc: f64 = 3.08568e13;
@@ -13,16 +13,16 @@ pub const m_per_kpc: f64 = m_per_pc * 1e3;
 pub const m_per_mpc: f64 = m_per_pc * 1e6;
 pub const m_per_gpc: f64 = m_per_mpc * 1e3;
 pub const m_per_km: f64 = 1e3;
-pub const m_per_rsun: f64 = 695500. * m_per_km;
-pub const m_per_rEarth: f64 = 6371000.;
-pub const m_per_au: f64 = 1.49597871e11;
+pub const m_per_rsun: f64 = 695_500. * m_per_km;
+pub const m_per_rEarth: f64 = 6_371_000.;
+pub const m_per_au: f64 = 1.495_978_71e11;
 pub const barn: f64 = 1e-28;
 pub const Mbarn: f64 = barn * 1e6;
 // masses
-pub const kg_per_amu: f64 = 1.660538921e-27;
-pub const kg_per_msun: f64 = 1.98892e30;
-pub const mH_amu: f64 = 1.00794;
-pub const mHe_amu: f64 = 4.002602;
+pub const kg_per_amu: f64 = 1.660_538_921e-27;
+pub const kg_per_msun: f64 = 1.988_92e30;
+pub const mH_amu: f64 = 1.007_94;
+pub const mHe_amu: f64 = 4.002_602;
 
 // times
 pub const s_per_yr: f64 = 365.25 * 24.0 * 3600.0;
@@ -34,21 +34,21 @@ pub const s_per_gyr: f64 = s_per_myr * 1e3;
 pub const sqdeg_per_std: f64 = 180.0 * 180. / (pi * pi);
 
 // General constants
-pub const h_P: f64 = 6.626068e-34; // Planck's constant - [h] = J*s
+pub const h_P: f64 = 6.626_068e-34; // Planck's constant - [h] = J*s
 pub const h_p: f64 = h_P;
 pub const h: f64 = h_p;
 pub const h_bar: f64 = h / 2. / pi; // H-bar - [h_bar] = J*s
-pub const c: f64 = 299792458.0; // Speed of light - [c] = m/s
-pub const k_B: f64 = 1.3806503e-23; // Boltzmann's constant - [k_B] = J/K
+pub const c: f64 = 299_792_458.0; // Speed of light - [c] = m/s
+pub const k_B: f64 = 1.380_650_3e-23; // Boltzmann's constant - [k_B] = J/K
 pub const G: f64 = 6.673e-11; // Gravitational constant - [G] = m^3/kg/s^2
-pub const e: f64 = 1.60217646e-19; // Electron charge - [e] = C
-pub const e_cgs: f64 = 4.803204e-10; // Electron charge - [e] = statC
-pub const m_e: f64 = 9.10938188e-31; // Electron mass - [m_e] = kg
-pub const m_p: f64 = 1.67262158e-27; // Proton mass - [m_p] = kg
-pub const m_n: f64 = 1.67492729e-27; // Neutron mass - [m_n] = kg
+pub const e: f64 = 1.602_176_46e-19; // Electron charge - [e] = C
+pub const e_cgs: f64 = 4.803_204e-10; // Electron charge - [e] = statC
+pub const m_e: f64 = 9.109_381_88e-31; // Electron mass - [m_e] = kg
+pub const m_p: f64 = 1.672_621_58e-27; // Proton mass - [m_p] = kg
+pub const m_n: f64 = 1.674_927_29e-27; // Neutron mass - [m_n] = kg
 pub const sigma_T: f64 = 6.65e-29; // Cross section for Thomson scattering - [sigma_T] = m^2
-pub const alpha_FS: f64 = 1. / 137.035999070; // Fine structure constant - unitless
-pub const Ryd: f64 = 2.1798719e-18; // Rydberg in J
+pub const alpha_FS: f64 = 1. / 137.035_999_070; // Fine structure constant - unitless
+pub const Ryd: f64 = 2.179_871_9e-18; // Rydberg in J
 
 // energies / wavelengths / frequencies
 pub const erg_per_j: f64 = 1e7;

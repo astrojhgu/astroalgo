@@ -1,3 +1,5 @@
+#![allow(clippy::many_single_char_names)]
+#![allow(clippy::too_many_arguments)]
 use num_traits::float::FloatConst;
 use std::convert::From;
 
@@ -34,7 +36,7 @@ impl EqPoint {
         Jd: From<T>,
     {
         let H = self.hour_angle_at(obs, sd).0;
-        let LonLat { lon: _, lat: phi } = LonLat::from(obs);
+        let LonLat { lat: phi, .. } = LonLat::from(obs);
         let delta = self.dec.0;
         //let alpha=self.ra;
 
@@ -49,7 +51,7 @@ impl EqPoint {
         let mut A = (-sH).atan2(tgdelta * cphi - cH * sphi);
         let h = (sphi * sdelta + cphi * cdelta * cH).asin();
         if A < 0.0 {
-            A = A + 2.0 * f64::PI();
+            A += 2.0 * f64::PI();
         }
         HzPoint {
             az: Angle(A),

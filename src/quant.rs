@@ -20,24 +20,24 @@ impl Angle {
     }
 
     pub fn from_dms(d: i32, m: u32, s: f64) -> Angle {
-        let df = d as f64;
-        let mf = m as f64;
-        let sf = s as f64;
+        let df = f64::from(d);
+        let mf = f64::from(m);
+        let sf = s;
 
         Angle((df.signum() * (df.abs() + mf / 60.0 + sf / 3600.0)).to_radians())
     }
 
     pub fn from_hms(h: u32, m: u32, s: f64) -> Angle {
-        Angle(((h as f64 + m as f64 / 60.0 + s as f64 / 3600.0) * 15.0).to_radians())
+        Angle(((f64::from(h) + f64::from(m) / 60.0 + s / 3600.0) * 15.0).to_radians())
     }
 
-    pub fn show_dms(&self) -> String {
+    pub fn show_dms(self) -> String {
         let deg = self.0.to_degrees();
         let sign = deg.signum();
         let deg = deg.abs();
         let d = deg.floor() as u32;
-        let m = ((deg - d as f64) * 60.0).floor() as u32;
-        let s = (deg - d as f64 - m as f64 / 60.0) * 3600.0;
+        let m = ((deg - f64::from(d)) * 60.0).floor() as u32;
+        let s = (deg - f64::from(d) - f64::from(m) / 60.0) * 3600.0;
         format!(
             "{}{}:{}:{}",
             if sign > 0.0 { '+' } else { '-' },
@@ -47,7 +47,7 @@ impl Angle {
         )
     }
 
-    pub fn show_hms(&self) -> String {
+    pub fn show_hms(self) -> String {
         //let deg = self.0.to_degrees() - (self.0.to_degrees() / 360.0).floor() * 360.0;
 
         let mut ha = self.0.to_degrees() / 15.0;
@@ -61,8 +61,8 @@ impl Angle {
         }
         let h = ha.floor() as u32;
 
-        let m = ((ha - h as f64) * 60.0).floor() as u32;
-        let s = (ha - h as f64 - m as f64 / 60.0) * 3600.0;
+        let m = ((ha - f64::from(h)) * 60.0).floor() as u32;
+        let s = (ha - f64::from(h) - f64::from(m) / 60.0) * 3600.0;
         format!("{}:{}:{}", h, m, s)
     }
 }
@@ -89,13 +89,13 @@ pub struct Epoch(pub f64);
 
 impl From<Jd> for Epoch {
     fn from(jd: Jd) -> Epoch {
-        Epoch(2000.0 + (jd.0 - 2451_545.0) / 365.25)
+        Epoch(2000.0 + (jd.0 - 2_451_545.0) / 365.25)
     }
 }
 
 impl From<Epoch> for Jd {
     fn from(ep: Epoch) -> Jd {
-        Jd((ep.0 - 2000.0) * 365.25 + 2451_545.0)
+        Jd((ep.0 - 2000.0) * 365.25 + 2_451_545.0)
     }
 }
 

@@ -1,3 +1,5 @@
+#![allow(clippy::many_single_char_names)]
+
 use crate::precession::epoch_convert;
 use crate::quant::{Angle, Epoch};
 use std::convert::From;
@@ -19,7 +21,7 @@ pub struct EqPointAtEpoch {
 
 impl EqPoint {
     pub fn from_radec(ra: Angle, dec: Angle) -> EqPoint {
-        EqPoint { ra: ra, dec: dec }
+        EqPoint { ra, dec }
     }
 
     pub fn at_epoch(&self, ep: Epoch) -> EqPointAtEpoch {
