@@ -1,8 +1,8 @@
 [dependencies]
-chrono = '0.4.9'
-num-traits = '0.2.8'
-serde = '1.0.102'
-serde_derive = '1.0.102'
+chrono = '0.4.19'
+num-traits = '0.2.14'
+serde = '1.0.119'
+serde_derive = '1.0.119'
 
 [dependencies.scorus]
 git = 'https://github.com/astrojhgu/scorus.git'
