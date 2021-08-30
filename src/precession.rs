@@ -45,10 +45,10 @@ pub fn epoch_convert(ep0: Epoch, ep: Epoch, p: &EqPoint) -> EqPoint {
 #[cfg(test)]
 mod tests {
     use chrono::naive::NaiveDate;
-    use crate::crate::eqpoint::EqPoint;
-    use crate::crate::quant::Angle;
-    use crate::crate::quant::Epoch;
-    use crate::crate::quant::Jd;
+    use crate::eqpoint::EqPoint;
+    use crate::quant::Angle;
+    use crate::quant::Epoch;
+    use crate::quant::Jd;
     #[test]
     fn it_works() {
         let eqpoint = EqPoint::from_radec(

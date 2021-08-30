@@ -90,8 +90,8 @@ pub fn jd_to_datetime(jd: Jd) -> NaiveDateTime {
 
 #[cfg(test)]
 mod tests {
-    use crate::crate::quant::Jd;
-    use crate::crate::test_suit::approx;
+    use crate::quant::Jd;
+    use crate::test_suit::approx;
     //use crate::datetime_to_jd;
     use chrono::NaiveDate;
     #[test]

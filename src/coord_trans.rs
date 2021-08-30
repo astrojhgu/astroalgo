@@ -103,10 +103,10 @@ impl LonLat {
 #[cfg(test)]
 mod tests {
     use chrono::naive::NaiveDate;
-    use crate::crate::earth_position::LonLat;
-    use crate::crate::quant::Angle;
-    use crate::crate::quant::HasValue;
-    use crate::crate::test_suit::approx;
+    use crate::earth_position::LonLat;
+    use crate::quant::Angle;
+    use crate::quant::HasValue;
+    use crate::test_suit::approx;
     use crate::hzpoint::HzPoint;
     use num_traits::float::Float;
     #[test]

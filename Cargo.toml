@@ -1,11 +1,11 @@
 [dependencies]
 chrono = '0.4.19'
 num-traits = '0.2.14'
-serde = '1.0.119'
-serde_derive = '1.0.119'
+serde = '1.0.130'
+serde_derive = '1.0.130'
 
 [dependencies.scorus]
-git = 'https://github.com/astrojhgu/scorus.git'
+path = '../scorus'
 
 [package]
 authors = ['Gu Junhua <jhgu@nao.cas.cn>']
