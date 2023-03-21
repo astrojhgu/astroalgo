@@ -112,7 +112,7 @@ mod tests {
     #[test]
     fn it_works() {
         let obs = LonLat::from_ll(Angle(120.0.to_radians()), Angle(30.0.to_radians()));
-        let time = NaiveDate::from_ymd(2000, 1, 1).and_hms(12, 0, 0);
+        let time = NaiveDate::from_ymd_opt(2000, 1, 1).unwrap().and_hms_opt(12, 0, 0).unwrap();
         let hz = HzPoint::from_altaz(Angle(30.0.to_radians()), Angle(45.0.to_radians()));
 
         let radec = obs.eqpoint_at(hz, time);

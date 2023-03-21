@@ -5,7 +5,7 @@ use crate::quant::Jd;
 
 pub fn datetime_to_jd(dt: &NaiveDateTime) -> Jd {
     //https://en.wikipedia.org/wiki/Julian_day
-    let d = dt.signed_duration_since(NaiveDate::from_ymd(-4713, 11, 24).and_hms(12, 0, 0));
+    let d = dt.signed_duration_since(NaiveDate::from_ymd_opt(-4713, 11, 24).unwrap().and_hms_opt(12, 0, 0).unwrap());
     let secs = d.num_seconds();
     let nanosecs = (d - Duration::seconds(secs)).num_nanoseconds().unwrap() as u64;
     let fsecs = secs as f64 + nanosecs as f64 / 1e9;
@@ -42,7 +42,7 @@ pub fn jd_to_datetime(jd: Jd) -> NaiveDateTime {
     let ns = ((secs - isec) * 1e9) as i64;
     let d = Duration::seconds(isec as i64) + Duration::nanoseconds(ns);
 
-    NaiveDate::from_ymd(-4713, 11, 24).and_hms(12, 0, 0) + d
+    NaiveDate::from_ymd_opt(-4713, 11, 24).unwrap().and_hms_opt(12, 0, 0).unwrap() + d
 
     /*
     let (z, f) = {
@@ -97,42 +97,42 @@ mod tests {
     #[test]
     fn it_works() {
         assert!(approx(
-            Jd::from(NaiveDate::from_ymd(2000, 1, 1).and_hms(12, 0, 0)).0,
+            Jd::from(NaiveDate::from_ymd_opt(2000, 1, 1).unwrap().and_hms_opt(12, 0, 0).unwrap()).0,
             2451545.0,
             1e-10
         ));
         assert!(approx(
-            Jd::from(NaiveDate::from_ymd(1999, 1, 1).and_hms(0, 0, 0)).0,
+            Jd::from(NaiveDate::from_ymd_opt(1999, 1, 1).unwrap().and_hms_opt(0, 0, 0).unwrap()).0,
             2451179.5,
             1e-10
         ));
         assert!(approx(
-            Jd::from(NaiveDate::from_ymd(1987, 1, 27).and_hms(0, 0, 0)).0,
+            Jd::from(NaiveDate::from_ymd_opt(1987, 1, 27).unwrap().and_hms_opt(0, 0, 0).unwrap()).0,
             2446822.5,
             1e-10
         ));
         assert!(approx(
-            Jd::from(NaiveDate::from_ymd(1987, 6, 19).and_hms(12, 0, 0)).0,
+            Jd::from(NaiveDate::from_ymd_opt(1987, 6, 19).unwrap().and_hms_opt(12, 0, 0).unwrap()).0,
             2446966.0,
             1e-10
         ));
         assert!(approx(
-            Jd::from(NaiveDate::from_ymd(1988, 6, 19).and_hms(12, 0, 0)).0,
+            Jd::from(NaiveDate::from_ymd_opt(1988, 6, 19).unwrap().and_hms_opt(12, 0, 0).unwrap()).0,
             2447332.0,
             1e-10
         ));
         assert!(approx(
-            Jd::from(NaiveDate::from_ymd(1900, 1, 1).and_hms(0, 0, 0)).0,
+            Jd::from(NaiveDate::from_ymd_opt(1900, 1, 1).unwrap().and_hms_opt(0, 0, 0).unwrap()).0,
             2415020.5,
             1e-10
         ));
         assert!(approx(
-            Jd::from(NaiveDate::from_ymd(1600, 1, 1).and_hms(0, 0, 0)).0,
+            Jd::from(NaiveDate::from_ymd_opt(1600, 1, 1).unwrap().and_hms_opt(0, 0, 0).unwrap()).0,
             2305447.5,
             1e-10
         ));
         assert!(approx(
-            Jd::from(NaiveDate::from_ymd(1600, 12, 31).and_hms(0, 0, 0)).0,
+            Jd::from(NaiveDate::from_ymd_opt(1600, 12, 31).unwrap().and_hms_opt(0, 0, 0).unwrap()).0,
             2305812.5,
             1e-10
         ));

@@ -28,7 +28,7 @@ where
 }
 
 pub fn date_mean_green_sidereal_angle(date: NaiveDate) -> Angle {
-    let jd = Jd::from(date.and_hms(0, 0, 0)).0;
+    let jd = Jd::from(date.and_hms_opt(0, 0, 0).unwrap()).0;
     let t = (jd - 2_451_545.0) / 36525.0;
     let mut sdr_deg: f64 = 100.460_618_37 + 36_000.770_053_608 * t + 0.000_387_933 * t.powi(2)
         - t.powi(3) / 38_710_000.0;
@@ -43,7 +43,7 @@ pub fn date_mean_green_sidereal_angle(date: NaiveDate) -> Angle {
 pub fn datetime_mean_green_sidereal_angle(datetime: &NaiveDateTime) -> Angle {
     let jd = Jd::from(*datetime).0;
     let t = (Jd::from(
-        NaiveDate::from_ymd(datetime.year(), datetime.month(), datetime.day()).and_hms(0, 0, 0),
+        NaiveDate::from_ymd_opt(datetime.year(), datetime.month(), datetime.day()).unwrap().and_hms_opt(0, 0, 0).unwrap(),
     ).0 - 2_451_545.0)
         / 36525.0;
 

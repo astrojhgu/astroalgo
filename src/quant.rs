@@ -79,7 +79,7 @@ impl From<NaiveDateTime> for Jd {
 
 impl From<NaiveDate> for Jd {
     fn from(nd: NaiveDate) -> Jd {
-        datetime_to_jd(&(nd.and_hms(0, 0, 0)))
+        datetime_to_jd(&(nd.and_hms_opt(0, 0, 0).unwrap()))
     }
 }
 

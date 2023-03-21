@@ -58,7 +58,7 @@ mod tests {
 
         let epoch1 = Epoch(2000.0);
         let epoch2 = Epoch::from(Jd::from(
-            NaiveDate::from_ymd(2028, 11, 13).and_hms(4, 33, 36),
+            NaiveDate::from_ymd_opt(2028, 11, 13).unwrap().and_hms_opt(4, 33, 36).unwrap(),
         ));
         let aa: EqPoint = eqpoint.at_epoch(epoch1).to_epoch(epoch2).into();
         println!("{}", aa);
